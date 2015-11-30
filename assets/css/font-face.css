@@ -1,0 +1,29 @@
+/* Thin */
+@font-face {
+    font-family: 'NotoSansKR-Thin';
+    font-style: normal;
+    font-weight: 250;
+    src: local('NotoSansKR-Thin'),
+    url('../webfont/NotoSansCJKkr_Thin.woff') format('woff');
+    font-stretch: normal;
+    unicode-range: U+0021-33FF,U+A000-F8FF,U+FB00-F251;
+}
+/*Roboto*/
+@font-face {
+    font-family:'Roboto';
+    font-style: normal;
+    font-weight:normal;
+    src:local('Roboto'), url('../webfont/Roboto_Light.woff') format('woff');
+    font-stretch: normal;
+    unicode-range: U+0021-33FF,U+A000-F8FF,U+FB00-F251;
+}
+
+/*KoPubDotumLight*/
+@font-face {
+    font-family:'KoPubDotumLight';
+    font-style: normal;
+    font-weight:normal;
+    src:local('RixMGoM'), url('../webfont/KoPubDotumLight.woff') format('woff');
+    font-stretch: normal;
+    unicode-range: U+0021-33FF,U+A000-F8FF,U+FB00-F251;
+}

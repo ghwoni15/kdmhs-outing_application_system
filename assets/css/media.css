@@ -1,0 +1,77 @@
+@media all{
+    #mNav{
+        visibility:collapse;
+    }
+}
+
+@media (max-width: 1024px){
+    #logo > a > img{
+        width:23.8%;
+        height:auto;
+    }
+
+    .large_title > * {
+        font-size:1.8em;
+    }
+
+    .sub_title > *{
+        font-size:0.5em;
+    }
+
+    #footer_logo > img {
+        width:26.2%;
+        height: auto;
+    }
+}
+
+@media (max-width: 768px) {
+    #logo, #welcome, #lnb{
+        visibility:collapse;
+    }
+
+    #mNav{
+        text-align:center;
+        visibility:visible;
+    }
+
+    #lnb_d{
+        visibility:collapse;
+    }
+
+    .large_title > * {
+        font-size:1.2em;
+    }
+
+    .sub_title > *{
+        font-size:0.08em;
+    }
+
+    footer{
+        font-size:0.3em;
+        text-align:center;
+    }
+
+    #footer_logo > img {
+        width:200px;
+        height:auto;
+    }
+}
+
+@media (max-width:412px){
+
+    .large_title > * {
+        font-size:0.8em;
+    }
+
+    .sub_title > *{
+        font-size:0.08em;
+    }
+
+    footer{
+        font-size:0.15em;
+    }
+
+    #mLogo{
+        content:url('../logo_device_m.png');
+    }
+}

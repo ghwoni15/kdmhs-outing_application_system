@@ -1,0 +1,67 @@
+/*KDMHS Outing Application System JS*/
+
+/*Scroll To TOP*/
+var timeOut;
+function scrollToTop() {
+    if (document.body.scrollTop!=0 || document.documentElement.scrollTop!=0){
+        window.scrollBy(0,-10);
+        timeOut=setTimeout('scrollToTop()',10);
+    }
+    else clearTimeout(timeOut);
+}
+
+/*SET NAVBAR*/
+$(document).ready(function(){
+
+    var mq = window.matchMedia("(min-width:769px)");
+    var mq2 = window.matchMedia("(max-width:960px)"); //FOR VIDEO
+
+    if(mq.matches){
+        var dnav = $('#mNav');
+        var nav = $('#logo');
+        var lnb = $('#lnb');
+        dnav.css('visibility','collapse');
+        $(window).scroll(function () {
+            if ($(this).scrollTop() > ($('#logo').height())/3) {
+                dnav.css('visibility','visible');
+                nav.css('visibility','collapse');
+                lnb.css('visibility','collapse');
+                nav.addClass("float-menu");
+                dnav.addClass("slide");
+            }else {
+                dnav.css('visibility','collapse');
+                nav.css('visibility','visible');
+                lnb.css('visibility','visible');
+                nav.removeClass("float-menu");
+            }
+        });
+    }else; //WILL BE CONTROLED BY MEDIA.CSS
+
+    /*SET DATE PROPERTIES*/
+    var rad_weekday = $("#weekday");
+    var rad_weekend = $("#weekend");
+
+    if(rad_weekday.attr("checked") == true) $("#apply_notice").innerHTML="학년부장선생님/담임선생님의 허가 하에 승인 후 외출이 가능합니다.";
+    else if(rad_weekend.attr("checked") == true) $("#apply_notice").innerHTML="잔류감독선생님의 허가 하에 승인 후 외출이 가능합니다.";
+
+    var today = new Date();
+    var dd = today.getDate();
+    var mm = today.getMonth()+1; //January is 0!
+
+    var yyyy = today.getFullYear();
+    if(dd<10){dd='0'+dd} if(mm<10){mm='0'+mm} today = yyyy+'-'+mm+'-'+dd;
+    var max = yyyy+'-12-31';
+
+    $('#date').attr('value', today);
+    $('#inquiry_date').attr('value', today);
+    $('#date').attr('min', today);
+    $('#date').attr('max', max);
+    //$("#date").datepicker();
+
+    /*SET VIDEOCLIP PROPERTIES*/
+    var vid = document.getElementById("bgvid").addEventListener('ended', removeVid, false);
+    function removeVid(e){
+        $('#bgvid').css('visibility', 'collapse');
+        $('body').addClass('body_img');
+     }
+});

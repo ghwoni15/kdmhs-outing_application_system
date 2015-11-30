@@ -1,0 +1,16 @@
+SCHEME
+
+OUTING_APPLY
+No(int 11 PRIMARY KEY)
+Username(varchar 20)
+StartTime(datetime)
+EndTime(datetime)
+ApplyAt(datetime)
+Note(varchar 50)
+
+OUTING_APPROVE
+Outing_Apply_No(OUTING_APPLY의 No)-PK
+ApproveNo(1부장/2담임/3잔류..)------------PK
+ApproveUsername
+IsApproved
+ApprovedAt(datetime)
