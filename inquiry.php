@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="description" content="한국디지털미디어고등학교 외출신청시스템" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
     <link rel="stylesheet" type="text/css" href="./assets/css/main.css"/>
     <link rel="stylesheet" type="text/css" href="./assets/css/media.css"/>
     <title>조회 - KDMHS :: 한국디지털미디어고등학교 외출신청시스템</title>
@@ -56,7 +56,7 @@ else if($_SESSION['Type']==='S' && isset($_GET['modified']) && $_GET['modified']
             die($errno.": ".$errmsg."<br />\n");
         }
 
-        $name=mysqli_fetch_array($rs,MYSQL_ASSOC)['Name'];
+        $name=mysqli_fetch_array($rs,MYSQLI_ASSOC)['Name'];
         echo("환영합니다, $name 님.");
 
         mysqli_free_result($rs);
@@ -139,13 +139,13 @@ else if($_SESSION['Type']==='S' && isset($_GET['modified']) && $_GET['modified']
 
                 unset($table);
                 if($if_cond_exists===false){
-                    if($_SESSION['Type']==='T') $query ="SELECT CONCAT(m.Grade,'-',m.Class,' ',m.Num,'번 ',m.Name) AS 신청학생정보, o.No AS 일련번호, o.Date AS 외출예정일, CONCAT(o.startTime, '~', o.endTime) AS 외출예정시간, o.Reason AS 외출사유, o.Approved AS 승인여부 FROM outing_apply o LEFT JOIN member m ON o.User=m.User WHERE (m.Grade='".$_SESSION['Grade']."' AND m.Class='".$_SESSION['Class']."') ORDER BY o.Date;";
+                    if($_SESSION['Type']==='T') $query ="SELECT o.No AS 일련번호, CONCAT(m.Grade,'-',m.Class,' ',m.Num,'번 ',m.Name) AS 신청학생정보, o.Date AS 외출예정일, CONCAT(o.startTime, '~', o.endTime) AS 외출예정시간, o.Reason AS 외출사유, o.Approved AS 승인여부 FROM outing_apply o LEFT JOIN member m ON o.User=m.User WHERE (m.Grade='".$_SESSION['Grade']."' AND m.Class='".$_SESSION['Class']."') ORDER BY o.Date;";
                     else if($_SESSION['Type']==='S') $query = "SELECT o.No AS 일련번호, o.Date AS 외출예정일, CONCAT(o.startTime, '~', o.endTime) AS 외출예정시간, o.Reason AS 외출사유, o.Approved AS 승인여부 FROM outing_apply o LEFT JOIN member m ON o.User=m.User WHERE o.User='".$_SESSION['User']."' ORDER BY o.Date;";
                 }
                 else{
                     if($_SESSION['Type']==='T'){
-                        if(isset($_GET['no'])) $query = "SELECT CONCAT(m.Grade,'-',m.Class,' ',m.Num,'번 ',m.Name) AS 신청학생정보, o.No AS 일련번호, o.Date AS 외출예정일, CONCAT(o.startTime, '~', o.endTime) AS 외출예정시간, o.Reason AS 외출사유, o.Approved AS 승인여부 FROM outing_apply o LEFT JOIN member m ON o.User=m.User WHERE o.No=".$_GET['no'].";";
-                        else $query = "SELECT CONCAT(m.Grade,'-',m.Class,' ',m.Num,'번 ',m.Name) AS 신청학생정보, o.No AS 일련번호, o.Date AS 외출예정일, CONCAT(o.startTime, '~', o.endTime) AS 외출예정시간, o.Reason AS 외출사유, o.Approved AS 승인여부 FROM outing_apply o LEFT JOIN member m ON o.User=m.User WHERE o.Date='".$DATE."'AND (m.Grade='".$_SESSION['Grade']."' AND m.Class='".$_SESSION['Class']."') ORDER BY o.Date;";
+                        if(isset($_GET['no'])) $query = "SELECT o.No AS 일련번호, CONCAT(m.Grade,'-',m.Class,' ',m.Num,'번 ',m.Name) AS 신청학생정보, o.Date AS 외출예정일, CONCAT(o.startTime, '~', o.endTime) AS 외출예정시간, o.Reason AS 외출사유, o.Approved AS 승인여부 FROM outing_apply o LEFT JOIN member m ON o.User=m.User WHERE o.No=".$_GET['no'].";";
+                        else $query = "SELECT o.No AS 일련번호, CONCAT(m.Grade,'-',m.Class,' ',m.Num,'번 ',m.Name) AS 신청학생정보, o.Date AS 외출예정일, CONCAT(o.startTime, '~', o.endTime) AS 외출예정시간, o.Reason AS 외출사유, o.Approved AS 승인여부 FROM outing_apply o LEFT JOIN member m ON o.User=m.User WHERE o.Date='".$DATE."'AND (m.Grade='".$_SESSION['Grade']."' AND m.Class='".$_SESSION['Class']."') ORDER BY o.Date;";
                     }
                     else if($_SESSION['Type']==='S') $query = "SELECT o.No AS 일련번호, o.Date AS 외출예정일, CONCAT(o.startTime, '~', o.endTime) AS 외출예정시간, o.Reason AS 외출사유, o.Approved AS 승인여부 FROM outing_apply o LEFT JOIN member m ON o.User=m.User WHERE o.Date='$DATE' AND o.User='".$_SESSION['User']."' ORDER BY o.Date;";
                 }
@@ -173,7 +173,7 @@ else if($_SESSION['Type']==='S' && isset($_GET['modified']) && $_GET['modified']
                                     else if ($_SESSION['Type'] === 'S') $row[$key] = "대기중&nbsp;&nbsp;<a href=./modify.php?perm_no=$temp><button class='button special'>수정</button></a>\n";
                                 }
                                 else if($val === 'T'){
-                                    if($_SESSION['Type']==='T') $row[$key] = "<a href=./make_permit/permission/toggle_permission.php?perm_no=$temp&status=cancel><button class='button special'>승인 취소</button></a>\n<a href=./modify.php?perm_no=$temp><button class='button special'>변경</button></a>\n<a href=./make_permit/permission/outing_permission.php?perm_no=$temp><button class='button special'>외출증 출력</button></a>\n";
+                                    if($_SESSION['Type']==='T') $row[$key] = "<a href=./make_permit/permission/toggle_permission.php?perm_no=$temp&status=cancel><button class='button special'>승인 취소</button></a>\n<a href=./modify.php?perm_no=$temp><button class='button special'>변경</button></a>\n<a href=./make_permit/permission/outing_permission.php?perm_no=$temp><button id='print_permit' class='button special'>외출증 출력</button></a>\n";
                                     else if($_SESSION['Type']==='S') $row[$key] = "승인됨&nbsp;&nbsp;<a href=./make_permit/permission/outing_permission.php?perm_no=$temp><button class='button special'>외출증 출력</button></a>\n";
                                 }
 
@@ -186,7 +186,7 @@ else if($_SESSION['Type']==='S' && isset($_GET['modified']) && $_GET['modified']
                 mysqli_close($link);
 
                 echo("<div id='table' align='center'>\n");
-                echo("\t\t<table class='table table-hover table-responsive'>\n");
+                echo("\t\t<table id=\"outing_detail\" class='table table-hover table-responsive'>\n");
                 echo("\t\t\t<thead>\n\t\t\t\t<tr>\n");
 
                 foreach($table['fields'] as $fname)

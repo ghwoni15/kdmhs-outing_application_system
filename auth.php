@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="description" content="한국디지털미디어고등학교 외출신청시스템" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
     <link rel="stylesheet" type="text/css" href="./assets/css/main.css"/>
     <link rel="stylesheet" type="text/css" href="./assets/css/media.css"/>
     <title>KDMHS :: 한국디지털미디어고등학교 외출신청시스템 로그인</title>
@@ -13,10 +13,10 @@
 </head>
 <body class="body_img">
 <?php
+session_start();
 if(!isset($_GET['act'])) die("<script>location.href='403.html';</script>\n");
 else if($_GET['act']==='logout')
 {
-    session_start();
     if(!isset($_SESSION['User'])) die("<script>location.href='./403.html';</script>\n");
     else{
         session_destroy();
@@ -25,6 +25,8 @@ else if($_GET['act']==='logout')
     }
 }
 else if($_GET['act']==='login'){
+
+    if(isset($_SESSION['User'])) die("<script>location.href='./';</script>\n");
 
     include "./include/auth.php";
 
@@ -45,7 +47,6 @@ else if($_GET['act']==='login'){
 
     $rn = mysqli_num_rows($rs);
     if($rn >= 1){
-        session_start();
         $_SESSION['User'] = $user;
         $user_data  = mysqli_fetch_array($rs, MYSQLI_ASSOC);
         list($_SESSION['Type'],$_SESSION['Grade'],$_SESSION['Class']) = array($user_data['Type'], $user_data['Grade'], $user_data['Class']);
@@ -63,36 +64,38 @@ else if($_GET['act']==='login'){
     </nav>
 </div>
 <h1 class="title">로그인</h1><hr/><br />
-<form class="form-horizontal" method="POST" action="auth.php?act=login" align="center">
-    <fieldset id="login_inf">
-        <legend>로그인</legend>
-        <div class="container">
-            <div id="left">
-                <div class="control-group">
-                    <label class="control-label" for="username">ID&nbsp;&nbsp;</label>
-                    <div class="controls">
-                        <input type="text" id="user" name="username" placeholder="인트라넷 계정 아이디" required>
+<div class="container auth">
+    <form method="POST" action="auth.php?act=login" align="center">
+        <fieldset id="login_inf">
+            <legend>로그인</legend>
+                <div id="left"style="border:1px solid white;">
+                    <div id="left">
+                        <input type="text" id="user" name="username" maxlength="20" placeholder="인트라넷 계정 아이디" required>
+                    </div>
+                    <div id="right">
+                        <input type="password" id="password" name="password" maxlength="20" placeholder="인트라넷 계정 패스워드" required>
                     </div>
                 </div>
-                <div class="control-group">
-                    <label class="control-label" for="password">Password&nbsp;&nbsp;</label>
-                    <div class="controls">
-                        <input type="password" id="password" name="password" placeholder="인트라넷 계정 패스워드" required>
+                <div id="right">
+                    <div>
+                        <div>
+                            <button type="submit" class="button special">로그인</button>
+                            <span class="help-inline">정보가 잘못되었습니다. 다시 한 번 확인바랍니다.</span>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
-        <div id="right">
-            <div class="control-group">
-                <div class="controls">
-                    <button type="submit" class="button special big icon">로그인</button>
-                    <span class="help-inline">정보가 잘못되었습니다. 다시 한 번 확인바랍니다.</span>
-                </div>
-            </div>
-        </div>
-    </fieldset>
-    <hr/><p>현재 시스템 개발 중입니다. 인트라넷 계정 연동 전까지 임시로 계정을 생성해 테스트할 수 있습니다.<br/>학생 계정 접속법 : 아이디는 stu[학번4자리]로, 비밀번호는 test<br/>교원 계정 접속법 : 아이디는 tea[담당학년][담당학급, 부장교사는 0]로, 비밀번호는 test</p><hr />
-</form>
+        </fieldset>
+        <hr/>
+        <aside>
+            현재 시스템 개발 중입니다. 인트라넷 계정 연동 전까지 임시로 계정을 생성해 테스트할 수 있습니다.
+            <br/>
+            학생 계정 접속법 : 아이디는 stu[학번4자리]로, 비밀번호는 test
+            <br/>
+            교원 계정 접속법 : 아이디는 tea[담당학년][담당학급, 부장교사는 0]로, 비밀번호는 test
+        </aside>
+        <hr />
+    </form>
+</div>
 <footer>
     <div id="footer_logo">
         <img src="./assets/dimigo.png"/>

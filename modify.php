@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="description" content="한국디지털미디어고등학교 외출신청시스템" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
     <link rel="stylesheet" type="text/css" href="./assets/css/main.css"/>
     <link rel="stylesheet" type="text/css" href="./assets/css/media.css"/>
     <title>수정 - KDMHS :: 한국디지털미디어고등학교 외출신청시스템</title>
@@ -80,7 +80,7 @@
                 $_SESSION['perm_no']=$_GET['perm_no'];
 
                 if($rn >= 1){
-                    echo("<div class=\"control-group\">\n\t\t<h1>해당 학생의 외출정보입니다. No.".$_GET['perm_no']."</h1>\n\t</div>\n\t\t<br/><br/>\n");
+                    echo("<div class=\"control-group\">\n\t\t<h1>일련번호 ".$_GET['perm_no']."에 대한 외출정보입니다.</h1>\n\t</div>\n\t\t<br/><br/>\n");
                     echo ("<div class=\"control-group\">\n\t\t<h5>신청일자 선택</h5>&nbsp;&nbsp;<input type=date id=date name=date value=$date/>&nbsp;&nbsp;\n\t</div>\n<br/>\n");
                     echo("<div class=\"control-group\">\n\t\t<h5>외출예정시간 : </h5><input type=time name=startTime required value='$startTime'/><h5> 부터 </h5>\n");
                     echo("<input type=time name=endTime required value='$endTime'/>&nbsp;<h5>&nbsp;까지&nbsp;</h5>\n</div>\n");

@@ -10,23 +10,35 @@
         height:auto;
     }
 
-    .large_title > * {
-        font-size:1.8em;
+    .title{
+        text-align:center;
+    }
+
+    .large_title > .header{
+        font-size:3.2rem;
     }
 
     .sub_title > *{
-        font-size:0.5em;
+        font-size:1.3rem;
     }
 
     #footer_logo > img {
         width:26.2%;
         height: auto;
     }
+
+    table > * {
+        font-size: 0.8rem;
+    }
 }
 
 @media (max-width: 768px) {
     #logo, #welcome, #lnb{
         visibility:collapse;
+    }
+
+    .title{
+        text-align:center;
     }
 
     #mNav{
@@ -38,16 +50,20 @@
         visibility:collapse;
     }
 
-    .large_title > * {
-        font-size:1.2em;
+    .large_title > .header {
+        font-size:2.6rem;
     }
 
     .sub_title > *{
-        font-size:0.08em;
+        font-size: 1.2rem;
+    }
+
+    #outing_detail > tbody > tr > td:first-child, #outing_detail > thead > tr > td:first-child {
+        display: none;
     }
 
     footer{
-        font-size:0.3em;
+        font-size:0.8rem;
         text-align:center;
     }
 
@@ -55,16 +71,28 @@
         width:200px;
         height:auto;
     }
+
+    table > * {
+        font-size: 0.6rem;
+    }
 }
 
 @media (max-width:412px){
 
-    .large_title > * {
-        font-size:0.8em;
+    .title{
+        text-align:center;
+    }
+
+    .large_title > .header {
+        font-size:1.5rem;
     }
 
     .sub_title > *{
-        font-size:0.08em;
+        font-size:0.7rem;
+    }
+
+    #outing_detail > tbody > tr > td:first-child, #outing_detail > thead > tr > td:first-child {
+        display: none;
     }
 
     footer{
@@ -73,5 +101,9 @@
 
     #mLogo{
         content:url('../logo_device_m.png');
+    }
+
+    table > * {
+        font-size: 0.4rem;
     }
 }

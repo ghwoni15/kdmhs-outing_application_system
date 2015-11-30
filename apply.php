@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="description" content="한국디지털미디어고등학교 외출신청시스템" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
     <link rel="stylesheet" type="text/css" href="./assets/css/main.css"/>
     <link rel="stylesheet" type="text/css" href="./assets/css/media.css"/>
     <title>KDMHS :: 한국디지털미디어고등학교 외출신청시스템 - 조회</title>
@@ -66,7 +66,8 @@
                 <div class="control-group">
                     <h5>결제라인 선택</h5>&nbsp;&nbsp;
                     <input type="radio" id="weekday" name="a_procedure" checked required><label for="weekday"> 평일 외출</label>&nbsp;&nbsp;
-                    <input type="radio" id="weekend" name="a_procedure" required><label for="weekend"> 주말 긴급 외출</label><br/><br />
+                    <input type="radio" id="weekend" name="a_procedure" required><label for="weekend"> 주말 긴급 외출</label><br/>
+                    <input type="checkbox" id="no_hrt" name="no_hrt"><label for="no_hrt"> 담임선생님 부재시 클릭</label><br/><br />
                     <span id="apply_notice" class="help-inline-visible"></span>
                     <p><h2 class="small_notice">** 결제라인(행정 절차) 안내</h2><br/>외출증 허가를 위해 상황에 따른 행정 절차가 필요합니다.<br />해당되는 외출 유형을 올바르게 선택해주십시오.</p>
                 </div>

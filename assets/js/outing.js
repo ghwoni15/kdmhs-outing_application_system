@@ -1,5 +1,12 @@
 /*KDMHS Outing Application System JS*/
 
+/*REDIRECT IF IE USER*/
+if(navigator.appName.indexOf("Internet Explorer")!=-1 || navigator.userAgent.match(/Trident.*rv[ :]*11\./))
+{
+    //This user uses Internet Explorer
+    window.location = "./no_ie.html";
+}
+
 /*Scroll To TOP*/
 var timeOut;
 function scrollToTop() {
@@ -15,6 +22,7 @@ $(document).ready(function(){
 
     var mq = window.matchMedia("(min-width:769px)");
     var mq2 = window.matchMedia("(max-width:960px)"); //FOR VIDEO
+    var mq3 = window.matchMedia("(max-width:412px)"); //FOR MOBILE_OUTING_PRINT
 
     if(mq.matches){
         var dnav = $('#mNav');
@@ -36,6 +44,8 @@ $(document).ready(function(){
             }
         });
     }else; //WILL BE CONTROLED BY MEDIA.CSS
+
+    if(mq3.matches) $("#print_permit").css('visibility','collapse');
 
     /*SET DATE PROPERTIES*/
     var rad_weekday = $("#weekday");
