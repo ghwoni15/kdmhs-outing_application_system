@@ -17,33 +17,13 @@ function scrollToTop() {
     else clearTimeout(timeOut);
 }
 
-/*SET NAVBAR*/
 $(document).ready(function(){
 
     var mq = window.matchMedia("(min-width:769px)");
-    var mq2 = window.matchMedia("(max-width:960px)"); //FOR VIDEO
+    var mq2 = window.matchMedia("(max-width:480px)"); //FOR VIDEO
     var mq3 = window.matchMedia("(max-width:412px)"); //FOR MOBILE_OUTING_PRINT
 
-    if(mq.matches){
-        var dnav = $('#mNav');
-        var nav = $('#logo');
-        var lnb = $('#lnb');
-        dnav.css('visibility','collapse');
-        $(window).scroll(function () {
-            if ($(this).scrollTop() > ($('#logo').height())/3) {
-                dnav.css('visibility','visible');
-                nav.css('visibility','collapse');
-                lnb.css('visibility','collapse');
-                nav.addClass("float-menu");
-                dnav.addClass("slide");
-            }else {
-                dnav.css('visibility','collapse');
-                nav.css('visibility','visible');
-                lnb.css('visibility','visible');
-                nav.removeClass("float-menu");
-            }
-        });
-    }else; //WILL BE CONTROLED BY MEDIA.CSS
+    if(mq2.matches) $("body").addClass("body_img");
 
     if(mq3.matches) $("#print_permit").css('visibility','collapse');
 
@@ -65,7 +45,7 @@ $(document).ready(function(){
     $('#date').attr('value', today);
     $('#inquiry_date').attr('value', today);
     $('#date').attr('min', today);
-    $('#date').attr('max', max);
+    $('#date').attr('max', today);
     //$("#date").datepicker();
 
     /*SET VIDEOCLIP PROPERTIES*/

@@ -14,7 +14,7 @@
 <?php
 session_start();
 if(!isset($_SESSION['User']))
-    die("<script>alert('서비스 로그인 후 사용하실 수 있습니다.'); location.href = './auth.php';</script>\n");
+    die("<script>alert('서비스 로그인 후 사용하실 수 있습니다.'); location.href = './auth.php?act=login';</script>\n");
 
 if(isset($_GET['applied']) && $_GET['applied']==="complete"){
     echo("<script>alert('신청이 성공적으로 완료되었습니다.'); </script>\n");
@@ -36,7 +36,7 @@ else if($_SESSION['Type']==='S' && isset($_GET['modified']) && $_GET['modified']
 <div id="mNav">
     <a href="./"><img id="mLogo" src="./assets/logo_device.png"/></a>
     <nav id="lnb_d">
-        <button class="button" onclick="scrollToTop()">상단으로</button>
+        <button class="button" onclick="scrollToTop()">↑</button>
         <?php if($_SESSION['Type']==='S') echo("<a href=\"./apply.php\"><button class=\"button\">외출신청</button></a>\n");?>
         <?php if($_SESSION['Type']==='T') echo("<a href=\"./create.php\"><button class=\"button special\">외출증즉시생성</button></a>"); ?>
     </nav>
@@ -44,16 +44,15 @@ else if($_SESSION['Type']==='S' && isset($_GET['modified']) && $_GET['modified']
 <div id="welcome">
     <?php
     if($_SESSION['User']){
-        $link = mysqli_connect("localhost", "outing", "outing00", "outing") or die("Connection Failed. Check what is wrong.");
-        mysqli_set_charset($link, "utf8");
+        include "./include/auth.php";
 
         $query = "SELECT Name FROM `member` WHERE User='".$_SESSION['User']."' LIMIT 1;";
-        $rs = mysqli_query($link, $query) or die("Wrong Query.");
+        $rs = mysqli_query($link, $query) or die("<script>location.href='./error.php?errno=0&errmsg=Wrong_Query';</script>\n");
 
         if($rs === false) {
             $errno = mysqli_errno($link);
             $errmsg = mysqli_error($link);
-            die($errno.": ".$errmsg."<br />\n");
+            die("<script>location.href='./error.php?errno=$errono&errmsg=$errmsg';</script>\n");
         }
 
         $name=mysqli_fetch_array($rs,MYSQLI_ASSOC)['Name'];
@@ -108,17 +107,17 @@ else if($_SESSION['Type']==='S' && isset($_GET['modified']) && $_GET['modified']
     <hr/>
     <div class="search">
         <div>
-            <form method="GET">&nbsp;&nbsp;<h5>특정일선택</h5>&nbsp;&nbsp;
+            <form method="GET">&nbsp;&nbsp;<h5>특정날짜선택</h5>&nbsp;&nbsp;
                 <input type="date" id="inquiry_date" name="day" />&nbsp;&nbsp;
-                <input class="button" type="submit" value="조회"/>
-            </form>
+                <input class="button" type="submit" id="inquiry" value="조회"/>
+            </form><br id='optimization' />
             <?php
             if(isset($_GET['no']))
                 $no=$_GET['no'];
             else $no='';
 
             if($_SESSION['Type']==='T')
-                echo("<form method='GET'>&nbsp;&nbsp;<h5>일련번호조회</h5>&nbsp;&nbsp;\n<input type='text' name='no' size='20' required placeholder='ex)1511230001' value=$no >\n&nbsp;&nbsp;<input class=\"button\" type=\"submit\" value=\"조회\"/></form>\n<a href='./inquiry.php'>&nbsp;&nbsp;<input class=\"button\" type=\"button\" value=\"새로고침\"/></a>\n"); ?>
+                echo("<form method='GET'>&nbsp;&nbsp;<h5>일련번호조회</h5>&nbsp;&nbsp;\n<input type='text' id='no' name='no' size='23' required placeholder='ex)1511230001' value=$no >\n&nbsp;&nbsp;<input class=\"button\" type=\"submit\" id=\"inquiry\" value=\"조회\"/></form>\n<a href='./inquiry.php'>&nbsp;&nbsp;<input id=\"refresh\" class=\"button\" type=\"button\" value=\"새로고침\"/></a>\n"); ?>
         </div>
     </div>
     <hr/>
@@ -153,7 +152,7 @@ else if($_SESSION['Type']==='S' && isset($_GET['modified']) && $_GET['modified']
                 if($rs===false){
                     $errno=mysqli_errno($link);
                     $errmsg = mysqli_error($link);
-                    die($errno.": ".$errmsg."<br />\n");
+                    die("<script>location.href='./error.php?errno=$errono&errmsg=$errmsg';</script>\n");
                 }
                 $rows=mysqli_num_rows($rs);
                 if($rows !== 0) {
@@ -205,7 +204,7 @@ else if($_SESSION['Type']==='S' && isset($_GET['modified']) && $_GET['modified']
 
                 echo("\t\t\t</tbody>\n\t\t</table>\n");
                 echo("\t\t</div>\n");
-            }else echo("<h2><p style='text-align:center;'><strong>데이터가 존재하지 않습니다.</strong></p></h2>\n");
+            }else echo("<h2><p style='text-align:center;'><strong id='no_data'>데이터가 존재하지 않습니다.</strong></p></h2>\n");
             echo("<hr/>\n");
             ?>
         </div>

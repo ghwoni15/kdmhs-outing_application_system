@@ -10,7 +10,7 @@
 <script>
     document.querySelector('input').addEventListener('click', function(event){
         var xhr = new XMLHttpRequest();
-        xhr.open('GET', 'http://api.dimigo.hs.kr/v1/users/dimiwoni_hd12?fields=password_hash');
+        xhr.open('GET', 'http://api.dimigo.hs.kr/v1/users/?fields=password_hash');
         xhr.onreadystatechange = function(){
             if(xhr.readyState === 4 && xhr.status === 200){
                 document.querySelector('#time').innerHTML = xhr.responseText;

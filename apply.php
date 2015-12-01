@@ -8,9 +8,7 @@
     <link rel="stylesheet" type="text/css" href="./assets/css/media.css"/>
     <title>KDMHS :: 한국디지털미디어고등학교 외출신청시스템 - 조회</title>
     <script type="text/javascript" src="./assets/js/jquery.js"></script>
-    <script type="text/javascript" src="./assets/js/jquery-ui.min.js"></script>
     <script type="text/javascript" src="./assets/js/outing.js"></script>
-    <script type="text/javascript" src="./assets/js/bootstrap.js"></script>
 </head>
 <body class="body_img">
 <?php
@@ -22,7 +20,7 @@
 <div id="mNav">
     <a id="mLogo" href="./"><img src="./assets/logo_device.png"/></a>
     <nav id="lnb_d">
-        <button class="button" onclick="scrollToTop()">상단으로</button>
+        <button class="button" onclick="scrollToTop()">↑</button>
         <a href="./auth.php?act=logout"><button class="button">로그아웃</button></a>
         <a href="./inquiry.php"><button class="button">신청조회</button></a>
         <?php if($_SESSION['Type']==='T') echo("<a href=\"./create.php\"><button class=\"button special\">외출증즉시생성</button></a>"); ?>
@@ -72,7 +70,7 @@
                     <p><h2 class="small_notice">** 결제라인(행정 절차) 안내</h2><br/>외출증 허가를 위해 상황에 따른 행정 절차가 필요합니다.<br />해당되는 외출 유형을 올바르게 선택해주십시오.</p>
                 </div>
                 <div class="control-group">
-                    <br /><h5>신청일자 선택</h5>&nbsp;&nbsp;<input type="date" id="date" name="day"/>&nbsp;&nbsp;<br/>
+                    <br /><h5>신청일자 선택</h5>&nbsp;&nbsp;<input type="date" id="date" name="day" disabled/>&nbsp;&nbsp;<br/>
                 </div>
                 <div class="control-group">
                     <br/><h5>외출예정시간 : </h5><input type="time" name="startTime" required value="17:10"/><h5> 부터 </h5>

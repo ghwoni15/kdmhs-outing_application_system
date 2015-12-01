@@ -8,9 +8,12 @@
     <link rel="stylesheet" type="text/css" href="./assets/css/media.css"/>
     <title>외출증 즉시 생성 - KDMHS :: 한국디지털미디어고등학교 외출신청시스템</title>
     <script type="text/javascript" src="./assets/js/jquery.js"></script>
-    <script type="text/javascript" src="./assets/js/jquery-ui.min.js"></script>
     <script type="text/javascript" src="./assets/js/outing.js"></script>
-    <script type="text/javascript" src="./assets/js/bootstrap.js"></script>
+    <script>
+        function loadStudent(){
+
+        }
+    </script>
 </head>
 <body class="body_img">
 <?php
@@ -65,7 +68,7 @@
                     <span class="help-inline-visible">해당되는 외출 유형을 올바르게 선택해주십시오.</span>
                 </div><br />
                 <div class="control-group">
-                    <h5>대상학생 선택 : </h5>&nbsp;&nbsp;<select id="grade" onchange="document.location='?grade='+this.value"><option>1</option><option>2</option><option>3</option></select>학년&nbsp;&nbsp;<select id="class" onchange="document.location='class='+this.value"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option></select>반
+                    <h5>대상학생 선택 : </h5>&nbsp;&nbsp;<select id="grade" onchange="loadStudent()"><option>1</option><option>2</option><option>3</option></select>학년&nbsp;&nbsp;<select id="class" onchange="loadStudent()"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option></select>반
                     <?php
                     $link = mysqli_connect("localhost", "outing", "outing00", "outing") or die("Connection Failed. Check what is wrong.");
                     mysqli_set_charset($link, "utf8");
@@ -91,6 +94,8 @@
                 </div>
                 <div class="control-group">
                     <h5>신청일자 선택 : </h5>&nbsp;&nbsp;<input type="date" id="date" name="day"/>&nbsp;&nbsp;<br/>
+                </div>
+                <div class="control-group">
                     <h5>외출예정시간 : </h5><input type="time" name="startTime" required value="17:10"/><h5> 부터 </h5>
                     <input type="time" name="endTime" required value="18:30"/>&nbsp;<h5>&nbsp;까지&nbsp;</h5>
                 </div>

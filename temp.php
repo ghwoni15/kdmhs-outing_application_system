@@ -6,57 +6,66 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
     <link rel="stylesheet" type="text/css" href="./assets/css/main.css"/>
     <link rel="stylesheet" type="text/css" href="./assets/css/media.css"/>
-    <title>로그인 - KDMHS :: 한국디지털미디어고등학교 외출신청시스템</title>
+    <title>KDMHS :: 한국디지털미디어고등학교 외출신청시스템 로그인</title>
     <script type="text/javascript" src="./assets/js/jquery.js"></script>
     <script type="text/javascript" src="./assets/js/outing.js"></script>
-    <script type="text/javascript" src="./assets/js/scroll.js" media="(min-width:1025px;)"></script>
+    <script type="text/javascript" src="./assets/js/bootstrap.js"></script>
 </head>
 <body class="body_img">
 <?php
-if(!isset($_GET['act']))
-    die("<script>location.href='403.html';</script>\n");
-else{
-    session_start();
-    if($_GET['act']==='login'){
-
-        if(isset($_SESSION['SIGNED']) && $_SESSION['SIGNED'] === true)
-            die("<script>location.href='index.php';</script>\n");
-
-        if(isset($_GET['status']) && $_GET['status']==='failed') $_SESSION = array();
-        else;
-    }
-    else if($_GET['act']==='logout')
-    {
-        if(!isset($_SESSION['User'])) die("<script>location.href='./index.php';</script>\n");
-        else{
-            session_destroy();
-            die("<script>alert('정상적으로 로그아웃 되었습니다.');\nlocation.href='./index.php';\n</script>\n");
-            exit;
-        }
-    }else if($_GET['act']==='login_check_auth'){
-        include("./account/aes.class.php");
-        include("./account/aesctr.class.php");
-
-        $ENCRYPTION_KEY='dimigo_oas';
-        $IDENTI_PW = $_POST['password'];
-        $ENCRYPTION_RS = AesCtr::encrypt($IDENTI_PW,$ENCRYPTION_KEY,256);
-
-        $_SESSION['REQ_ID_INFO'] = $_POST['username'];
-        $_SESSION['REQ_ENCRYPTION_RS'] = $ENCRYPTION_RS;
-        echo("<script>location.href='./account/check_auth.php';</script>\n");
+session_start();
+if(!isset($_GET['act'])) die("<script>location.href='403.html';</script>\n");
+else if($_GET['act']==='logout')
+{
+    if(!isset($_SESSION['User'])) die("<script>location.href='./403.html';</script>\n");
+    else{
+        session_destroy();
+        die("<script>location.href='./index.php';</script>\n");
+        exit;
     }
 }
+else if($_GET['act']==='login'){
+
+    if(isset($_SESSION['User'])) die("<script>location.href='./';</script>\n");
+
+    include "./include/auth.php";
+
+    if(!isset($_POST['username'])) $user='';
+    else $user = mysqli_real_escape_string($link, $_POST['username']);
+
+    if(!isset($_POST['password'])) $pass='';
+    else $pass = mysqli_real_escape_string($link, $_POST['password']);
+
+    $query = "SELECT Type, Grade, Class FROM member WHERE User='".$user."' AND Pass = Password('".$pass."');";
+    $rs = mysqli_query($link, $query) or die("<script>location.href='./error.php?errno=0&errmsg=Wrong_Query';</script>\n");
+
+    if($rs === false) {
+        $errno = mysqli_errno($link);
+        $errmsg = mysqli_error($link);
+        die("<script>location.href='./error.php?errno=$errono&errmsg=$errmsg';</script>\n");
+    }
+
+    $rn = mysqli_num_rows($rs);
+    if($rn >= 1){
+        $_SESSION['User'] = $user;
+        $user_data  = mysqli_fetch_array($rs, MYSQLI_ASSOC);
+        list($_SESSION['Type'],$_SESSION['Grade'],$_SESSION['Class']) = array($user_data['Type'], $user_data['Grade'], $user_data['Class']);
+
+        if($_SESSION['Type']==='T') die("<script>location.href='./inquiry.php';</script>\n");
+        else if($_SESSION['Type']==='S') die("<script>location.href='./index.php';</script>\n");
+    }else;
+}else;
 ?>
 <div id="logo"><a href="."><img src="./assets/logo.png"/></a></div>
 <div id="mNav">
-    <a href="./"><img id="mLogo" src="./assets/logo_device.png"/></a>
+    <a id="mLogo" href="./"><img src="./assets/logo_device.png"/></a>
     <nav id="lnb_d">
-        <button class="button" onclick="scrollToTop()">↑</button>
+        <button class="button" onclick="scrollToTop()">상단으로</button>
     </nav>
 </div>
 <h1 class="title">로그인</h1><hr/><br />
 <div class="container auth">
-    <form method="POST" action="auth.php?act=login_check_auth" align="center">
+    <form method="POST" action="temp.php?act=login" align="center">
         <fieldset id="login_inf">
             <legend>로그인</legend>
                 <div id="left">
@@ -78,11 +87,11 @@ else{
         </fieldset>
         <hr/>
         <aside>
-            현재 시스템 개발 중입니다. 인트라넷 로그인이 시범적으로 운영되고 있으며, 로그인 후 시스템의 전반적 테스트가 정상적으로 실행되지 않습니다.
+            시스템 테스트를 위한 로그인 화면입니다.
             <br/>
-            시스템 테스트를 위해서 다음 페이지를 통해 로그인하십시오. <a class="button special" href="./temp.php?act=login">시스템 테스트 로그인</a>
+            학생 계정 접속법 : 아이디는 stu[학번4자리]로, 비밀번호는 test
             <br/>
-            위의 경우 로그아웃을 위해 브라우저를 종료하거나 수동으로 URL에 접속하여 로그아웃하셔야합니다.: <strong>temp.php?act=logout</strong>
+            교원 계정 접속법 : 아이디는 tea[담당학년][담당학급, 부장교사는 0]로, 비밀번호는 test
         </aside>
         <hr />
     </form>

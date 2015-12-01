@@ -9,7 +9,6 @@
     <title>수정 - KDMHS :: 한국디지털미디어고등학교 외출신청시스템</title>
     <script type="text/javascript" src="./assets/js/jquery.js"></script>
     <script type="text/javascript" src="./assets/js/outing.js"></script>
-    <script type="text/javascript" src="./assets/js/bootstrap.js"></script>
 </head>
 <body class="body_img">
 <?php
@@ -19,7 +18,13 @@
 ?>
 <div id="logo"><a href="."><img src="./assets/logo.png"/></a></div>
 <div id="mNav">
-    <a id="mLogo" href="./"><img src="./assets/logo_device.png"/></a>
+    <a href="./"><img id="mLogo" src="./assets/logo_device.png"/></a>
+    <button class="mobile" style="visibility: collapse;"></button>
+    <nav id="lnb_d">
+        <button class="button" onclick="scrollToTop()">↑</button>
+        <a href="./auth.php?act=logout"><button class="button">로그아웃</button></a>
+        <a href="./inquiry.php"><button class="button">신청조회</button></a>
+        <?php if($_SESSION['Type']==='S') echo("<a href=\"./apply.php\"><button class=\"button special\">외출신청</button></a>"); ?><?php if($_SESSION['Type']==='T') echo("<a href=\"./create.php\"><button class=\"button\">외출증즉시생성</button></a>\n"); ?></nav>
 </div>
 <div id="welcome">
     <?php
