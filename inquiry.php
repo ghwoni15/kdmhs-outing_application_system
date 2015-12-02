@@ -13,7 +13,7 @@
 <body class="body_img">
 <?php
 session_start();
-if(!isset($_SESSION['User']))
+if(!isset($_SESSION['MODE']))
     die("<script>alert('서비스 로그인 후 사용하실 수 있습니다.'); location.href = './auth.php?act=login';</script>\n");
 
 if(isset($_GET['applied']) && $_GET['applied']==="complete"){
@@ -41,26 +41,7 @@ else if($_SESSION['Type']==='S' && isset($_GET['modified']) && $_GET['modified']
         <?php if($_SESSION['Type']==='T') echo("<a href=\"./create.php\"><button class=\"button special\">외출증즉시생성</button></a>"); ?>
     </nav>
 </div>
-<div id="welcome">
-    <?php
-    if($_SESSION['User']){
-        include "./include/auth.php";
-
-        $query = "SELECT Name FROM `member` WHERE User='".$_SESSION['User']."' LIMIT 1;";
-        $rs = mysqli_query($link, $query) or die("<script>location.href='./error.php?errno=0&errmsg=Wrong_Query';</script>\n");
-
-        if($rs === false) {
-            $errno = mysqli_errno($link);
-            $errmsg = mysqli_error($link);
-            die("<script>location.href='./error.php?errno=$errono&errmsg=$errmsg';</script>\n");
-        }
-
-        $name=mysqli_fetch_array($rs,MYSQLI_ASSOC)['Name'];
-        echo("환영합니다, $name 님.");
-
-        mysqli_free_result($rs);
-    }
-    ?>
+<div id="welcome"><?php echo("환영합니다, ".$_SESSION['User']."님.");?>
 </div>
 <nav id="lnb">
     <a href="./auth.php?act=logout"><button class="button">로그아웃</button></a>
@@ -70,6 +51,7 @@ else if($_SESSION['Type']==='S' && isset($_GET['modified']) && $_GET['modified']
 <br/>
 <h1 class="title">조회</h1>
 <?php
+    include "./include/auth.php";
     if($_SESSION['Type']==='T'){
         echo("<div id='status' align='center'><hr/><h1 id=\"status_title\">금일 외출 신청 학생 현황표</h1><hr/>");
         echo("<table class='table table-hover table-responsive'>\n");
@@ -105,8 +87,7 @@ else if($_SESSION['Type']==='S' && isset($_GET['modified']) && $_GET['modified']
     ?>
     </h3>
     <hr/>
-    <div class="search">
-        <div>
+    <div class="container search" align="center" style="border:1px solid white;">
             <form method="GET">&nbsp;&nbsp;<h5>특정날짜선택</h5>&nbsp;&nbsp;
                 <input type="date" id="inquiry_date" name="day" />&nbsp;&nbsp;
                 <input class="button" type="submit" id="inquiry" value="조회"/>
@@ -118,7 +99,6 @@ else if($_SESSION['Type']==='S' && isset($_GET['modified']) && $_GET['modified']
 
             if($_SESSION['Type']==='T')
                 echo("<form method='GET'>&nbsp;&nbsp;<h5>일련번호조회</h5>&nbsp;&nbsp;\n<input type='text' id='no' name='no' size='23' required placeholder='ex)1511230001' value=$no >\n&nbsp;&nbsp;<input class=\"button\" type=\"submit\" id=\"inquiry\" value=\"조회\"/></form>\n<a href='./inquiry.php'>&nbsp;&nbsp;<input id=\"refresh\" class=\"button\" type=\"button\" value=\"새로고침\"/></a>\n"); ?>
-        </div>
     </div>
     <hr/>
     <div id="content">
@@ -144,15 +124,16 @@ else if($_SESSION['Type']==='S' && isset($_GET['modified']) && $_GET['modified']
                 else{
                     if($_SESSION['Type']==='T'){
                         if(isset($_GET['no'])) $query = "SELECT o.No AS 일련번호, CONCAT(m.Grade,'-',m.Class,' ',m.Num,'번 ',m.Name) AS 신청학생정보, o.Date AS 외출예정일, CONCAT(o.startTime, '~', o.endTime) AS 외출예정시간, o.Reason AS 외출사유, o.Approved AS 승인여부 FROM outing_apply o LEFT JOIN member m ON o.User=m.User WHERE o.No=".$_GET['no'].";";
-                        else $query = "SELECT o.No AS 일련번호, CONCAT(m.Grade,'-',m.Class,' ',m.Num,'번 ',m.Name) AS 신청학생정보, o.Date AS 외출예정일, CONCAT(o.startTime, '~', o.endTime) AS 외출예정시간, o.Reason AS 외출사유, o.Approved AS 승인여부 FROM outing_apply o LEFT JOIN member m ON o.User=m.User WHERE o.Date='".$DATE."'AND (m.Grade='".$_SESSION['Grade']."' AND m.Class='".$_SESSION['Class']."') ORDER BY o.Date;";
+                        else $query = "SELECT o.No AS 일련번호, CONCAT(m.Grade,'-',m.Class,' ',m.Num,'번 ',m.Name) AS 신청학생정보, o.Date AS 외출예정일, CONCAT(o.startTime, '~', o.endTime) AS 외출예정시간, o.Reason AS 외출사유, o.Approved AS 승인여부 FROM outing_apply o LEFT JOIN member m ON o.User=m.User WHERE o.Date='".$DATE."'AND (m.Grade='".substr($_SESSION['Serial'],0,1)."' AND m.Class='".substr($_SESSION['Serial'],1,1)."') ORDER BY o.Date;";
                     }
                     else if($_SESSION['Type']==='S') $query = "SELECT o.No AS 일련번호, o.Date AS 외출예정일, CONCAT(o.startTime, '~', o.endTime) AS 외출예정시간, o.Reason AS 외출사유, o.Approved AS 승인여부 FROM outing_apply o LEFT JOIN member m ON o.User=m.User WHERE o.Date='$DATE' AND o.User='".$_SESSION['User']."' ORDER BY o.Date;";
                 }
+
                 $rs=mysqli_query($link, $query);
                 if($rs===false){
                     $errno=mysqli_errno($link);
                     $errmsg = mysqli_error($link);
-                    die("<script>location.href='./error.php?errno=$errono&errmsg=$errmsg';</script>\n");
+                    die("<script>location.href='./error.php?errno=$errno&errmsg=$errmsg';</script>\n");
                 }
                 $rows=mysqli_num_rows($rs);
                 if($rows !== 0) {
@@ -168,12 +149,13 @@ else if($_SESSION['Type']==='S' && isset($_GET['modified']) && $_GET['modified']
                                 $temp = $val;
                             if ($key === '승인여부')
                                 if ($val === 'F') {
-                                    if ($_SESSION['Type'] === 'T')  $row[$key] = "<a href=./make_permit/permission/toggle_permission.php?perm_no=$temp&status=approve><button class='button special'>승인</button></a>\n";
+                                    if ($_SESSION['Type'] === 'T') $row[$key] = "<a href=./make_permit/permission/toggle_permission.php?perm_no=$temp&status=approve><button class='button special'>승인</button></a>\n";
                                     else if ($_SESSION['Type'] === 'S') $row[$key] = "대기중&nbsp;&nbsp;<a href=./modify.php?perm_no=$temp><button class='button special'>수정</button></a>\n";
                                 }
                                 else if($val === 'T'){
-                                    if($_SESSION['Type']==='T') $row[$key] = "<a href=./make_permit/permission/toggle_permission.php?perm_no=$temp&status=cancel><button class='button special'>승인 취소</button></a>\n<a href=./modify.php?perm_no=$temp><button class='button special'>변경</button></a>\n<a href=./make_permit/permission/outing_permission.php?perm_no=$temp><button id='print_permit' class='button special'>외출증 출력</button></a>\n";
-                                    else if($_SESSION['Type']==='S') $row[$key] = "승인됨&nbsp;&nbsp;<a href=./make_permit/permission/outing_permission.php?perm_no=$temp><button class='button special'>외출증 출력</button></a>\n";
+                                    $_SESSION['TEMP_OP_NO'] = $temp;
+                                    if($_SESSION['Type']==='T') $row[$key] = "<a href=./make_permit/permission/toggle_permission.php?perm_no=$temp&status=cancel><button class='button special'>승인 취소</button></a>\n<a href=./modify.php?perm_no=$temp><button class='button special'>변경</button></a>\n<a href=./make_permit/permission/outing_permission.php><button id='print_permit' class='button special'>외출증 출력</button></a>\n";
+                                    else if($_SESSION['Type']==='S') $row[$key] = "승인됨&nbsp;&nbsp;<a href=./make_permit/permission/outing_permission.php><button class='button special'>외출증 출력</button></a>\n";
                                 }
 
                         }

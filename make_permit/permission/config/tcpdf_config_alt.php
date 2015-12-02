@@ -149,17 +149,17 @@ define ('PDF_MARGIN_RIGHT', 1);
 /**
  * Default main font name.
  */
-define ('PDF_FONT_NAME_MAIN', 'robotomedium_0');
+define ('PDF_FONT_NAME_MAIN', 'robotob_0');
 
 /**
  * Default main font size.
  */
-define ('PDF_FONT_SIZE_MAIN', 10);
+define ('PDF_FONT_SIZE_MAIN', 8);
 
 /**
  * Default data font name.
  */
-define ('PDF_FONT_NAME_DATA', 'robotomedium_0');
+define ('PDF_FONT_NAME_DATA', 'robotob_0');
 
 /**
  * Default data font size.

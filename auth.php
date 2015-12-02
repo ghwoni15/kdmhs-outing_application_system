@@ -14,13 +14,13 @@
 <body class="body_img">
 <?php
 if(!isset($_GET['act']))
-    die("<script>location.href='403.html';</script>\n");
+    die("<script>location.href='./403.html';</script>\n");
 else{
     session_start();
     if($_GET['act']==='login'){
 
         if(isset($_SESSION['SIGNED']) && $_SESSION['SIGNED'] === true)
-            die("<script>location.href='index.php';</script>\n");
+            die("<script>location.href='./index.php';</script>\n");
 
         if(isset($_GET['status']) && $_GET['status']==='failed') $_SESSION = array();
         else;
@@ -43,7 +43,11 @@ else{
 
         $_SESSION['REQ_ID_INFO'] = $_POST['username'];
         $_SESSION['REQ_ENCRYPTION_RS'] = $ENCRYPTION_RS;
+        $_SESSION['MODE']='CHECK_AUTH';
         echo("<script>location.href='./account/check_auth.php';</script>\n");
+    }else if(isset($_GET['reload'])){
+        session_destroy();
+        die("<script>location.href='./auth.php?act=login';</script>\n");
     }
 }
 ?>
@@ -71,7 +75,6 @@ else{
                     <div>
                         <div>
                             <button type="submit" class="button special">로그인</button>
-                            <span class="help-inline">정보가 잘못되었습니다. 다시 한 번 확인바랍니다.</span>
                         </div>
                     </div>
                 </div>
@@ -91,8 +94,11 @@ else{
     <div id="footer_logo">
         <img src="./assets/dimigo.png"/>
     </div><br/>
-    ⓒCopyright 2016 Korea Digital Media High School.<br/> All rights reserved.<br />System created by J.W.Jeon/T.H.Kim/S.H.Kim HD12.<br/><br />
-    <address>15255 경기도 안산시 단원구 사세충열로 94<br/>(와동, 한국디지털미디어고등학교)</address>학교대표번호 : <a href="tel:/031-363-7800">031-363-7800</a>
+    <div>
+        <p> ⓒCopyright 2016 Korea Digital Media High School.<br/> All rights reserved.<br />System created by J.W.Jeon/T.H.Kim/S.H.Kim HD12.</p>
+        <address>15255 경기도 안산시 단원구 사세충열로 94<br/>(와동, 한국디지털미디어고등학교)</address>
+        학교대표번호 : <a href="tel:/031-363-7800">031-363-7800</a>
+    </div>
 </footer>
 </body>
 </html>

@@ -9,8 +9,8 @@ ApplyAt(datetime)
 Note(varchar 50)
 
 OUTING_APPROVE
-Outing_Apply_No(OUTING_APPLYÀÇ No)-PK
-ApproveNo(1ºÎÀå/2´ãÀÓ/3ÀÜ·ù..)------------PK
+Outing_Apply_No(OUTING_APPLYì˜ No)-PK
+ApproveNo(1ë¶€ì¥êµì‚¬/2ë‹´ì„êµì‚¬/3ê°ë…êµì‚¬..)------------PK
 ApproveUsername
 IsApproved
 ApprovedAt(datetime)

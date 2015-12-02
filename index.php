@@ -16,9 +16,7 @@
     </video>
     <?php
     session_start();
-    if(!isset($_SESSION['User'])){
-        die("<script>alert('서비스 로그인 후 사용하실 수 있습니다.'); location.href = './auth.php?act=login';</script>\n");
-    }
+    if(!isset($_SESSION['MODE'])) die("<script>alert('서비스 로그인 후 사용하실 수 있습니다.'); location.href = './auth.php?act=login';</script>\n");
 
     if($_SESSION['Type']==='T') die("<script>location.href='./inquiry.php';</script>\n");
     ?><div id="logo">
@@ -34,7 +32,7 @@
         <?php if($_SESSION['Type']==='S') echo("<a href=\"./apply.php\"><button class=\"button special\">외출신청</button></a>"); ?><?php if($_SESSION['Type']==='T') echo("<a href=\"./create.php\"><button class=\"button\">외출증즉시생성</button></a>\n"); ?></nav>
     </div>
     <div id="welcome">
-        <?php echo("환영합니다, "./*!!!!!!!!!!!*/$_SESSION['REQ_ID_INFO']."님.\n");?>
+        <?php echo("환영합니다, ".$_SESSION['User']."님.\n");?>
     </div>
     <nav id="lnb">
         <a href="./auth.php?act=logout"><button class="button">로그아웃</button></a>

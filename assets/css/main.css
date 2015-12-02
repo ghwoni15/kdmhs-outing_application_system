@@ -20,15 +20,15 @@ body{
 }
 
 *{
-    font-family: 'KoPubDotumLight','NotoSansKR-Light','Roboto', sans-serif;
+    font-family: 'KoPubDotumLight','Roboto', sans-serif;
     line-height:1.5em;
-    color:white;
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     -khtml-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+    color:white;
 }
 
 img{
@@ -48,7 +48,6 @@ img{
     margin-top:25px;
     margin-right:15px;
     font-size: 4em;
-    color:white;
 }
 
 .float-menu{
@@ -83,7 +82,6 @@ img{
 /*MAIN PAGE*/
 
 .large_title{
-    color:white;
     margin:10% auto;
 }
 
@@ -102,7 +100,6 @@ img{
 }
 
 .small_notice{
-    color:white;
     font-size: 2em;
 }
 
@@ -112,7 +109,6 @@ img{
 }
 
 .header{
-    color:white;
     font-size: 2.1em;
     text-align:center;
 }
@@ -120,7 +116,6 @@ img{
 footer{
     clear:both;
     background:url('../footer_transparent.png');
-    color:white;
     padding:50px;
     margin:0px 0px 0px 0px;
     text-align:right;
@@ -266,25 +261,24 @@ select:focus, input[type="password"]:focus,input[type="text"]:focus,input[type="
 
 .large_title .sub_title{text-align:center;}
 
-footer a{color:white;}
 
-#welcome{color:white;text-align:right;padding-top:10px;padding-right:10px;}
+#welcome{text-align:right;padding-top:10px;padding-right:10px;}
 
-#status_title{font-size:2em;margin-left:30px;color:white;}
+#status_title{font-size:2em;margin-left:30px;}
 
 h5{text-align:center;}
 
-h5 a{color:white;}
-
-.search{margin-left:50px;}
-
-.search *{display:inline;}
+.search *{line-height:2rem;display:inline;}
 
 #table{align:center;}
 
 .inquiry{visibility:visible;}
 
 #apply_complete, #apply_error{visibility: collapse;}
+
+#reason{
+    display: none;
+}
 
 video#bgvid {
     position: fixed;

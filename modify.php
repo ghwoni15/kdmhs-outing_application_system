@@ -13,7 +13,7 @@
 <body class="body_img">
 <?php
     session_start();
-    if(!isset($_SESSION['User'])) die("<script>alert('서비스 로그인 후 사용하실 수 있습니다.'); location.href = './auth.php';</script>\n");
+    if(!isset($_SESSION['MODE'])) die("<script>alert('서비스 로그인 후 사용하실 수 있습니다.'); location.href = './auth.php?act=login';</script>\n");
     if(!isset($_GET['perm_no'])) die("<script>location.href='403.html';</script>\n");
 ?>
 <div id="logo"><a href="."><img src="./assets/logo.png"/></a></div>
@@ -26,25 +26,7 @@
         <a href="./inquiry.php"><button class="button">신청조회</button></a>
         <?php if($_SESSION['Type']==='S') echo("<a href=\"./apply.php\"><button class=\"button special\">외출신청</button></a>"); ?><?php if($_SESSION['Type']==='T') echo("<a href=\"./create.php\"><button class=\"button\">외출증즉시생성</button></a>\n"); ?></nav>
 </div>
-<div id="welcome">
-    <?php
-    if($_SESSION['User']){
-        include "./include/auth.php";
-
-        $query = "SELECT Name FROM `member` WHERE User='".$_SESSION['User']."' LIMIT 1;";
-        $rs = mysqli_query($link, $query) or die("Wrong Query.");
-
-        if($rs === false) {
-            $errno = mysqli_errno($link);
-            $errmsg = mysqli_error($link);
-            die($errno.": ".$errmsg."<br />\n");
-        }
-
-        echo("환영합니다, ".mysqli_fetch_array($rs,MYSQL_ASSOC)['Name']."님.");
-
-        mysqli_free_result($rs);
-    }
-    ?>
+<div id="welcome"><?php echo("환영합니다, ".$_SESSION['User']."님.");?>
 </div>
 <nav id="lnb">
     <a href="./auth.php?act=logout"><button class="button">로그아웃</button></a>

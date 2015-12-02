@@ -13,7 +13,7 @@
 <body class="body_img">
 <?php
     session_start();
-    if(!isset($_SESSION['User'])) die("<script>alert('서비스 로그인 후 사용하실 수 있습니다.'); location.href = './auth.php';</script>\n");
+    if(!isset($_SESSION['MODE'])) die("<script>alert('서비스 로그인 후 사용하실 수 있습니다.'); location.href = './auth.php';</script>\n");
     if($_SESSION['Type']==='T') die("<script>alert('학생 전용 페이지입니다.'); location.href='./index.php';</script>\n");
 ?>
 <div id="logo"><a href="."><img src="./assets/logo.png"/></a></div>
@@ -26,24 +26,7 @@
         <?php if($_SESSION['Type']==='T') echo("<a href=\"./create.php\"><button class=\"button special\">외출증즉시생성</button></a>"); ?>
     </nav>
 </div>
-<div id="welcome">
-    <?php
-    if($_SESSION['User']){
-        $link = mysqli_connect("localhost", "outing", "outing00", "outing") or die("Connection Failed. Check what is wrong.");
-        mysqli_set_charset($link, "utf8");
-
-        $query = "SELECT Name FROM `member` WHERE User='".$_SESSION['User']."' LIMIT 1;";
-        $rs = mysqli_query($link, $query) or die("Wrong Query.");
-
-        if($rs === false) {
-            $errno = mysqli_errno($link);
-            $errmsg = mysqli_error($link);
-            die($errno.": ".$errmsg."<br />\n");
-        }
-
-        echo("환영합니다, ".mysqli_fetch_array($rs,MYSQL_ASSOC)['Name']."님.");
-    }
-    ?>
+<div id="welcome"><?php echo("환영합니다, ".$_SESSION['User']."님.");?>
 </div>
 <nav id="lnb">
     <a href="./auth.php?act=logout"><button class="button">로그아웃</button></a>
@@ -66,7 +49,7 @@
                     <input type="radio" id="weekday" name="a_procedure" checked required><label for="weekday"> 평일 외출</label>&nbsp;&nbsp;
                     <input type="radio" id="weekend" name="a_procedure" required><label for="weekend"> 주말 긴급 외출</label><br/>
                     <input type="checkbox" id="no_hrt" name="no_hrt"><label for="no_hrt"> 담임선생님 부재시 클릭</label><br/><br />
-                    <span id="apply_notice" class="help-inline-visible"></span>
+                    <span id="apply_notice" class="help-inline-visible"><strong>학년부장선생님/담임선생님 허가하에 외출이 가능합니다.</strong></span><br/><br/>
                     <p><h2 class="small_notice">** 결제라인(행정 절차) 안내</h2><br/>외출증 허가를 위해 상황에 따른 행정 절차가 필요합니다.<br />해당되는 외출 유형을 올바르게 선택해주십시오.</p>
                 </div>
                 <div class="control-group">
@@ -77,11 +60,20 @@
                     <input type="time" name="endTime" required value="18:30"/>&nbsp;<h5>&nbsp;까지&nbsp;</h5>
                 </div>
                 <div class="control-group">
-                    <br/><h5>외출사유 : </h5><input type="text" name="reason" required size="40" maxlength="20" placeholder="20자 제한, 간단명료히 작성"/>&nbsp;&nbsp;
+                    <br/><h5>외출사유 : </h5>
+                    <select id="select_reason" onchange="getReason();">
+                        <option>선택하세요</option>
+                        <option value="hospital">병원</option>
+                        <option value="shopping">물품구매</option>
+                        <option value="study">학원</option>
+                        <option value="club">외부활동</option>
+                        <option value="parents">부모님 면회</option>
+                        <option value="etc">기타</option>
+                    </select>
+                    <input type="text" id="reason" name="reason" required size="40" maxlength="20" placeholder="20자 제한, 간단명료히 작성"/>&nbsp;&nbsp;
                 </div>
                <div class="control-group">
                    <br/><input class="button special" type="submit" value="신청"/>
-                   <span class="help-inline"></span>
                </div><hr/>
             </fieldset>
         </form>

@@ -1,10 +1,12 @@
 <?php
 // Include the main TCPDF library (search for installation path).
+session_start();
 require_once('tcpdf_include.php');
 
-if(empty($_GET['perm_no'])) header('Location: ../../403.html');
-else $perm_no=$_GET['perm_no'];
-
+if(empty($_SESSION['TEMP_OP_NO'])) header('Location: ../../403.html');
+else {
+	$perm_no = $_SESSION['TEMP_OP_NO'];
+}
 	$link = mysqli_connect("localhost","outing","outing00","outing") or die("Connecting to Database Failed. Please make sure what's the error in this problem.\n");
 	mysqli_set_charset($link, "utf8");
 
@@ -102,7 +104,7 @@ $html = '<h1 style="font-size:30px; text-align:justify;">외출허가증<br/><sm
 <h4 style="font-size:20px;text-align:justify;"><strong style="font-size:16px;">허가시간</strong> :<br/>'.$outing_day.'<br/>'.$startTime.' ~ '.$endTime.'</h4>
 <h4 style="font-size:20px;text-align:justify;"><strong style="font-size:16px;">외출사유</strong> :<br/>'.$reason.'</h4>
 <hr/><small style="font-size:12px;text-align:center;">위와 같은 사유로 인하여 해당 학생의 외출을 허가합니다.</small>
-<h2 style="font-size:18px;text-align:justify;margin-left:15px;">3학년 학년부장 : <br/>담임교사 : </h2><br/><hr/><br />
+<h2 style="font-size:18px;text-align:justify;margin-left:15px;">3학년 학년부장 : [직인생략]<br/>담임교사 : [직인생략]</h2><br/><hr/><br />
 <h4 style="font-size:14px;text-align:center;margin-top:10px;">본 외출증은 외출 종료시까지 반드시 소지하고 있어야 하며, <br/>외출 시간 이후 그 효력은 소멸됨을 알려드립니다.</h4>';
 
 $params = $pdf->serializeTCPDFtagParameters(array($perm_no, 'C39', '', '', 70, 10, 0.2, array('position'=>'S', 'border'=>true, 'padding'=>4, 'fgcolor'=>array(0,0,0), 'bgcolor'=>array(255,255,255), 'text'=>true, 'font'=>'robotob_0', 'fontsize'=>8, 'stretchtext'=>4), 'N'));
@@ -117,7 +119,7 @@ $html = '<h1 style="font-size:30px; text-align:justify;">외출허가증<br/><sm
 <h4 style="font-size:20px;text-align:justify;"><strong style="font-size:16px;">허가시간</strong> :<br/>'.$outing_day.'<br/>'.$startTime.' ~ '.$endTime.'</h4>
 <h4 style="font-size:20px;text-align:justify;"><strong style="font-size:16px;">외출사유</strong> :<br/>'.$reason.'</h4>
 <hr/><small style="font-size:12px;text-align:center;">위와 같은 사유로 인하여 해당 학생의 외출을 허가합니다.</small>
-<h2 style="font-size:18px;text-align:justify;margin-left:15px;">3학년 학년부장 : <br/>담임교사 : </h2><br/><hr/><br />';
+<h2 style="font-size:18px;text-align:justify;margin-left:15px;">3학년 학년부장 : [직인생략]<br/>담임교사 : [직인생략]</h2><br/><hr/><br />';
 $params = $pdf->serializeTCPDFtagParameters(array($perm_no, 'C39', '', '', 70, 10, 0.2, array('position'=>'S', 'border'=>true, 'padding'=>4, 'fgcolor'=>array(0,0,0), 'bgcolor'=>array(255,255,255), 'text'=>true, 'font'=>'robotob_0', 'fontsize'=>8, 'stretchtext'=>4), 'N'));
 $html .= '&nbsp;<tcpdf method="write1DBarcode" params="'.$params.'" /><br/><small style="font-size:10px; text-align:center;">부정방지용 바코드</small>';
 // output the HTML content
