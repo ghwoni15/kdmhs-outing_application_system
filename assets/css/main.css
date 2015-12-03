@@ -39,7 +39,7 @@ img{
 
 .body_img{
     margin:0px auto;
-    background:url("../background.jpg") no-repeat fixed;
+    background:url("../images/background.jpg") no-repeat fixed;
     background-size: 100% 100%;
 }
 
@@ -291,7 +291,7 @@ video#bgvid {
     z-index: -100;
     -webkit-transform: translateX(-50%) translateY(-50%);
     transform: translateX(-50%) translateY(-50%);
-    background: url('../dimigo.png') no-repeat;
+    background: url('../images/dimigo.png') no-repeat;
     background-size: cover;
 }
 

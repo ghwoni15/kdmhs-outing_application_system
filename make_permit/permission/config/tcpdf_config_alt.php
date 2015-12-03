@@ -29,7 +29,7 @@
 //============================================================+
 
 /**
- * Example of alternative configuration file for TCPDF.
+ * configuration file for TCPDF.
  * @author Nicola Asuni
  * @package com.tecnick.tcpdf
  * @version 4.9.005
@@ -63,13 +63,13 @@ define ('K_TCPDF_EXTERNAL_CONFIG', true);
  * Default images directory.
  * By default it is automatically set but you can also set it as a fixed string to improve performances.
  */
-define ('K_PATH_IMAGES', dirname(__FILE__).'/../images/');
+define ('K_PATH_IMAGES', dirname(__FILE__).'/../../../assets/images/');
 
 /**
  * Deafult image logo used be the default Header() method.
  * Please set here your own logo or an empty string to disable it.
  */
-define ('PDF_HEADER_LOGO', 'logo.png');
+define ('PDF_HEADER_LOGO', 'permit_top_logo.png');
 
 /**
  * Header logo image width in user units.
@@ -81,10 +81,6 @@ define ('PDF_HEADER_LOGO_WIDTH', 30);
  */
 define ('K_PATH_CACHE', sys_get_temp_dir().'/');
 
-/**
- * Generic name for a blank image.
- */
-define ('K_BLANK_IMAGE', '_blank.png');
 
 /**
  * Page format.
@@ -154,7 +150,7 @@ define ('PDF_FONT_NAME_MAIN', 'robotob_0');
 /**
  * Default main font size.
  */
-define ('PDF_FONT_SIZE_MAIN', 8);
+define ('PDF_FONT_SIZE_MAIN', 7);
 
 /**
  * Default data font name.
@@ -189,12 +185,12 @@ define('K_CELL_HEIGHT_RATIO', 1.05);
 /**
  * Title magnification respect main font size.
  */
-define('K_TITLE_MAGNIFICATION', 1.3);
+define('K_TITLE_MAGNIFICATION', 1.1);
 
 /**
  * Reduction factor for small font.
  */
-define('K_SMALL_RATIO', 1/4);
+define('K_SMALL_RATIO', 1/5);
 
 /**
  * Set to true to enable the special procedure used to avoid the overlappind of symbols on Thai language.
@@ -210,7 +206,7 @@ define('K_TCPDF_CALLS_IN_HTML', true);
 /**
  * If true and PHP version is greater than 5, then the Error() method throw new exception instead of terminating the execution.
  */
-define('K_TCPDF_THROW_EXCEPTION_ERROR', false);
+define('K_TCPDF_THROW_EXCEPTION_ERROR', true);
 
 //============================================================+
 // END OF FILE

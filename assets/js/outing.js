@@ -7,7 +7,13 @@ function getReason()
     if($('#select_reason').val() == 'etc')
     {
         $('#reason').css('display','inline');
-    }else $('#reason').css('display','none');
+        $('#reason').attr('required','true');
+        $('#select_reason').removeAttr('required');
+    }else{
+        $('#reason').css('display','none');
+        $('#reason').removeAttr('required');
+        $('#select_reason').attr('required', 'true');
+    }
 }
 /*--------------------------------------------------------------------------------------------------------------*/
 
@@ -96,4 +102,14 @@ $(document).ready(function(){
         $('body').addClass('body_img');
      }
     /*--------------------------------------------------------------------------------------------------------------*/
-   });
+
+    /*APPLY*/
+    //var btn_apply = $("#btn_apply");
+    //btn_apply.click(function(){
+    //    if(!$('#reason').attr('required')){
+    //
+    //    }
+    //});
+    /*--------------------------------------------------------------------------------------------------------------*/
+
+});

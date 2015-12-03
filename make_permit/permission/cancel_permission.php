@@ -8,8 +8,7 @@ else{
     $startTime = $_POST['startTime'];
     $endTime = $_POST['endTime'];
 
-    $link = mysqli_connect("localhost","dbman","1234","dbman") or die("Connecting to Database Failed. Please make sure what's the error in this problem.\n");
-    mysqli_set_charset($link, "utf8");
+    include "../../include/auth.php";
 
     list($year, $month, $mday) = explode("-", $_POST['day']);
 
@@ -17,7 +16,7 @@ else{
     $rs=mysqli_query($link, $query);
 
     if($rs===false){
-        header('Location: ../../error.html');
+        header('Location: ../../error.php?errno=3&errmsg=Unknown');
     }
 
     if(mysqli_num_rows($rs) === 0) $no=(substr($year,-2).$month.$mday."0000")+1;
@@ -26,7 +25,7 @@ else{
     $query="INSERT INTO outing_apply(`No`, `Date`, `User`, `startTime`, `endTime`, `Reason`, `Approved`) VALUES (".$no.", '".$day."', '".$_SESSION['User']."','".$startTime."', '".$endTime."', '".$REASON."', 'F');";
     $rs=mysqli_query($link, $query);
     if($rs===false){
-        header('Location: ../../error.html');
+        header('Location: ../../error.php?errno=3&errmsg=Unknown');
     }
 
     $rows=mysqli_num_rows($rs);
@@ -34,7 +33,7 @@ else{
     mysqli_close($link);
     if($rows !== 0){
         header('Location: ../../inquiry.php?req_no='.$no.'&applied=complete');
-    }else header('Location: ../../error.html');
+    }else header('Location: ../../error.php?errno=3&errmsg=Unknown');
 }
 
 ?>

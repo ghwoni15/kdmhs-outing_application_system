@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
     <link rel="stylesheet" type="text/css" href="./assets/css/main.css"/>
     <link rel="stylesheet" type="text/css" href="./assets/css/media.css"/>
-    <title>외출증 즉시 생성 - KDMHS :: 한국디지털미디어고등학교 외출신청시스템</title>
+    <title>DIMIGO OAS :: 외출증즉시생성</title>
     <script type="text/javascript" src="./assets/js/jquery.js"></script>
     <script type="text/javascript" src="./assets/js/outing.js"></script>
     <script type="text/javascript">
@@ -34,17 +34,17 @@
 <body class="body_img">
 <?php
     session_start();
-    if(!isset($_SESSION['MODE'])) die("<script>alert('서비스 로그인 후 사용하실 수 있습니다.'); location.href = './auth.php?act=login';</script>\n");
+    if(!isset($_SESSION['MODE'])) die("<script>alert('서비스 로그인 후 사용하실 수 있습니다.'); location.href = 'account/auth.php';</script>\n");
     else if($_SESSION['Type']!=='T') die("<script>location.href = './403.html';</script>\n");
 ?>
-<div id="logo"><a href="."><img src="./assets/logo.png"/></a></div>
+<div id="logo"><a href="."><img src="assets/images/logo.png"/></a></div>
 <div id="mNav">
-    <a id="mLogo" href="./"><img src="./assets/logo_device.png"/></a>
+    <a id="mLogo" href="./"><img src="assets/images/logo_device.png"/></a>
 </div>
 <div id="welcome"><?php echo("환영합니다, ".$_SESSION['User']."님.");?>
 </div>
 <nav id="lnb">
-    <a href="./auth.php?act=logout"><button class="button">로그아웃</button></a>
+    <a href="account/auth.php?act=logout"><button class="button">로그아웃</button></a>
     <a href="./inquiry.php"><button class="button">신청조회</button></a>
 </nav><br/>
 <h1 class="title">생성</h1><hr/>
@@ -79,8 +79,8 @@
                 </div>
                 <div class="control-group">
                     <h5>외출사유 : </h5>
-                    <select id="select_reason" onchange="getReason();">
-                        <option>선택하세요</option>
+                    <select id="select_reason" name="reason_type" required onchange="getReason();">
+                        <option value="">선택하세요</option>
                         <option value="hospital">병원</option>
                         <option value="shopping">물품구매</option>
                         <option value="study">학원</option>
@@ -88,7 +88,7 @@
                         <option value="parents">부모님 면회</option>
                         <option value="etc">기타</option>
                     </select>
-                    <input type="text" id="reason" name="reason" size="40" maxlength="20" required placeholder="20자 이내, 간단하고 명료하게 작성"/>&nbsp;&nbsp;<br/>
+                    <input type="text" id="reason" name="etc_reason" required size="40" maxlength="20" placeholder="20자 제한, 간단명료히 작성"/>&nbsp;&nbsp;
                 </div>
                 <div class="control-group"><br/>
                     <input class="button special" type="submit" value="생성"/>
@@ -100,7 +100,7 @@
 </div>
 <footer>
     <div id="footer_logo">
-        <img src="./assets/dimigo.png"/>
+        <img src="assets/images/dimigo.png"/>
     </div><br/>
     ⓒCopyright 2016 Korea Digital Media High School.<br/> All rights reserved.<br />System created by J.W.Jeon/T.H.Kim/S.H.Kim HD12.<br/><br />
     <address>15255 경기도 안산시 단원구 사세충열로 94<br/>(와동, 한국디지털미디어고등학교)</address>학교대표번호 : <a href="tel:/031-363-7800">031-363-7800</a>

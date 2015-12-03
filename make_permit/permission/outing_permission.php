@@ -7,12 +7,14 @@ if(empty($_SESSION['TEMP_OP_NO'])) header('Location: ../../403.html');
 else {
 	$perm_no = $_SESSION['TEMP_OP_NO'];
 }
-	$link = mysqli_connect("localhost","outing","outing00","outing") or die("Connecting to Database Failed. Please make sure what's the error in this problem.\n");
-	mysqli_set_charset($link, "utf8");
-
-	$query = "SELECT m.Grade, m.Class, m.Num, m.Name, o.Date, o.startTime, o.endTime, o.Reason FROM outing_apply o LEFT JOIN member m ON o.User = m.User WHERE No = ".$perm_no.";";
+	include "../../include/auth.php";
+	$query = "SELECT m.Grade, m.Class, m.Num, m.Name, DATE_FORMAT(o.begin_time,'%m월 %d일 %H시 %i분'), DATE_FORMAT(o.end_time,'%H시 %i분'), o.note FROM out_apply o LEFT JOIN member m ON o.username = m.User WHERE o.id = ".$perm_no.";";
 	$rs=mysqli_query($link, $query);
-	if($rs===false) header('Location: ../../404.html');
+	if($rs===false){
+		$errno=mysqli_errno($link);
+		$errmsg = mysqli_error($link);
+		die("</div>\n<script>location.href='../../error.php?errno=$errno&errmsg=$errmsg';</script>\n");
+	}
 
 	$rows=mysqli_num_rows($rs);
 	if($rows !== 0) {
@@ -38,7 +40,7 @@ else {
 		}
 	}else header('Location: ../../404.html');
 
-	list($grade, $class, $number, $name, $outing_day, $startTime, $endTime, $reason) = explode("/", $result);
+	list($grade, $class, $number, $name, $startTime, $endTime, $reason) = explode("/", $result);
 
 // create new PDF document
 $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
@@ -79,10 +81,10 @@ if (@file_exists(dirname(__FILE__).'/lang/kor.php')) {
 // ---------------------------------------------------------
 
 // set font
-$pdf->SetFont('kopubdotumb', '', 10);
+$pdf->SetFont('kopubdotumb', '', 5);
 
 // add a page
-$pdf->AddPage('P', array(80,120));
+$pdf->AddPage('P', array(80,100));
 
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -99,29 +101,32 @@ serializeTCPDFtagParameters() method (see the example below).
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 
-$html = '<h1 style="font-size:30px; text-align:justify;">외출허가증<br/><small style="font-size:12px;"> (학생보관용)</small></h1>
-<h4 style="font-size:20px;text-align:justify;"><strong style="font-size:16px;">학생정보</strong> :<br/>'.$grade.'학년 '.$class.'반 '.$number.'번 '.$name.'</h4>
-<h4 style="font-size:20px;text-align:justify;"><strong style="font-size:16px;">허가시간</strong> :<br/>'.$outing_day.'<br/>'.$startTime.' ~ '.$endTime.'</h4>
-<h4 style="font-size:20px;text-align:justify;"><strong style="font-size:16px;">외출사유</strong> :<br/>'.$reason.'</h4>
+$html = '<small style="font-size:30px; text-align:center;">외출허가증<small style="font-size:12px;"> (학생보관용)</small></small>
+<h4 style="font-size:18px;text-align:justify;"><strong style="font-size:13px;">학생정보</strong> :<br/>'.$grade.'학년 '.$class.'반 '.$number.'번 '.$name.'</h4>
+<h4 style="font-size:18px;text-align:justify;"><strong style="font-size:13px;">허가시간</strong> :<br/>'.$startTime.' ~ '.$endTime.'</h4>
+<h4 style="font-size:18px;text-align:justify;"><strong style="font-size:13px;">외출사유</strong> :<br/>'.$reason.'</h4>
 <hr/><small style="font-size:12px;text-align:center;">위와 같은 사유로 인하여 해당 학생의 외출을 허가합니다.</small>
 <h2 style="font-size:18px;text-align:justify;margin-left:15px;">3학년 학년부장 : [직인생략]<br/>담임교사 : [직인생략]</h2><br/><hr/><br />
-<h4 style="font-size:14px;text-align:center;margin-top:10px;">본 외출증은 외출 종료시까지 반드시 소지하고 있어야 하며, <br/>외출 시간 이후 그 효력은 소멸됨을 알려드립니다.</h4>';
+<h4 style="font-size:13px;text-align:center;margin-top:10px;">본 외출증은 외출 종료시까지 반드시 소지하고 있어야 하며, <br/>외출 시간 이후 그 효력은 소멸됨을 알려드립니다.</h4>';
 
-$params = $pdf->serializeTCPDFtagParameters(array($perm_no, 'C39', '', '', 70, 10, 0.2, array('position'=>'S', 'border'=>true, 'padding'=>4, 'fgcolor'=>array(0,0,0), 'bgcolor'=>array(255,255,255), 'text'=>true, 'font'=>'robotob_0', 'fontsize'=>8, 'stretchtext'=>4), 'N'));
-$html .= '&nbsp;<tcpdf method="write1DBarcode" params="'.$params.'" /><br/><small style="font-size:10px; text-align:center;">부정방지용 바코드</small>';
+$params = $pdf->serializeTCPDFtagParameters(array($perm_no, 'C39', '', '', 70, 8, 0.2, array('position'=>'S', 'border'=>true, 'padding'=>4, 'fgcolor'=>array(0,0,0), 'bgcolor'=>array(255,255,255), 'text'=>true, 'font'=>'robotob_0', 'fontsize'=>8, 'stretchtext'=>4), 'N'));
+$html .= '&nbsp;<tcpdf method="write1DBarcode" params="'.$params.'" /><small style="font-size:11px;text-align:center;">:: 부정방지 바코드 ::</small>';
 
 // output the HTML content
 $pdf->writeHTML($html, true, 0, true, 0,'');
-$pdf->AddPage('P', array(80,111));
 
-$html = '<h1 style="font-size:30px; text-align:justify;">외출허가증<br/><small style="font-size:12px;"> (감독교사보관용)</small></h1>
-<h4 style="font-size:20px;text-align:justify;"><strong style="font-size:16px;">학생정보</strong> :<br/>'.$grade.'학년 '.$class.'반 '.$number.'번 '.$name.'</h4>
-<h4 style="font-size:20px;text-align:justify;"><strong style="font-size:16px;">허가시간</strong> :<br/>'.$outing_day.'<br/>'.$startTime.' ~ '.$endTime.'</h4>
-<h4 style="font-size:20px;text-align:justify;"><strong style="font-size:16px;">외출사유</strong> :<br/>'.$reason.'</h4>
+$pdf->AddPage('P', array(80,92));
+
+$html = '<small style="font-size:30px; text-align:center;">외출허가증<small style="font-size:12px;"> (감독교사보관용)</small></small>
+<h4 style="font-size:18px;text-align:justify;"><strong style="font-size:13px;">학생정보</strong> :<br/>'.$grade.'학년 '.$class.'반 '.$number.'번 '.$name.'</h4>
+<h4 style="font-size:18px;text-align:justify;"><strong style="font-size:13px;">허가시간</strong> :<br/>'.$startTime.' ~ '.$endTime.'</h4>
+<h4 style="font-size:18px;text-align:justify;"><strong style="font-size:13px;">외출사유</strong> :<br/>'.$reason.'</h4>
 <hr/><small style="font-size:12px;text-align:center;">위와 같은 사유로 인하여 해당 학생의 외출을 허가합니다.</small>
 <h2 style="font-size:18px;text-align:justify;margin-left:15px;">3학년 학년부장 : [직인생략]<br/>담임교사 : [직인생략]</h2><br/><hr/><br />';
-$params = $pdf->serializeTCPDFtagParameters(array($perm_no, 'C39', '', '', 70, 10, 0.2, array('position'=>'S', 'border'=>true, 'padding'=>4, 'fgcolor'=>array(0,0,0), 'bgcolor'=>array(255,255,255), 'text'=>true, 'font'=>'robotob_0', 'fontsize'=>8, 'stretchtext'=>4), 'N'));
-$html .= '&nbsp;<tcpdf method="write1DBarcode" params="'.$params.'" /><br/><small style="font-size:10px; text-align:center;">부정방지용 바코드</small>';
+
+$params = $pdf->serializeTCPDFtagParameters(array($perm_no, 'C39', '', '', 70, 8, 0.2, array('position'=>'S', 'border'=>true, 'padding'=>4, 'fgcolor'=>array(0,0,0), 'bgcolor'=>array(255,255,255), 'text'=>true, 'font'=>'robotob_0', 'fontsize'=>8, 'stretchtext'=>4), 'N'));
+$html .= '&nbsp;<tcpdf method="write1DBarcode" params="'.$params.'" /><small style="font-size:11px;text-align:center;">:: 부정방지 바코드 ::</small>';
+
 // output the HTML content
 $pdf->writeHTML($html, true, 0, true, 0);
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -131,7 +136,7 @@ $pdf->writeHTML($html, true, 0, true, 0);
 
 // ---------------------------------------------------------
 $js = <<<EOD
-app.alert('인쇄용지 사이즈를 60*80(mm)로 기본 설정 후 인쇄해주십시오. 미준수시 용지의 낭비가 발생할 수 있습니다.', 3, 0, ' ');
+app.alert('프린트시 기본설정에서 인쇄용지 사이즈를 60*70(mm)로 기본 설정 후 인쇄해주십시오. 미준수시 용지의 낭비가 발생할 수 있습니다.', 3, 0, ' ');
 EOD;
 
 // force print dialog
