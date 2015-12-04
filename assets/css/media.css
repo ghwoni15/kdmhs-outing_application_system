@@ -1,0 +1,190 @@
+@media all{
+    #logo{
+        visibility : visible;
+    }
+
+    #mNav{
+        visibility : collapse;
+    }
+
+    #lnb{
+        visibility : visible;
+    }
+
+    #optimization{
+        display: none;
+    }
+}
+
+@media screen and (max-width:480px){
+    video {
+        display:none;
+    }
+}
+
+@media (max-width: 1024px){
+    #logo > a > img{
+         width:23.8%;
+         height:auto;
+     }
+
+    .title{
+        text-align:center;
+    }
+
+    .large_title > .header{
+        font-size:3.2rem;
+    }
+
+    .sub_title > *{
+        font-size:1.3rem;
+    }
+
+    #refresh{
+        display:none;
+    }
+
+    #optimization{
+        display:flex;
+    }
+
+    #inquiry_date, #no, #inquiry {
+        font-size:0.8rem;
+    }
+
+    #footer_logo > img {
+        width:26.2%;
+        height: auto;
+    }
+
+    table > * {
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 768px) {
+
+    #logo{
+        visibility : collapse;
+    }
+
+    #mNav{
+        visibility : visible;
+        text-align : center;
+    }
+
+    #lnb{
+        visibility : collapse;
+    }
+
+    #lnb_d{
+        visibility : collapse;
+    }
+
+    .title{
+        margin-top:5rem;
+        text-align:center;
+    }
+
+    .large_title > .header {
+        font-size:2.6rem;
+    }
+
+    .sub_title > *{
+        font-size: 1.2rem;
+    }
+
+    #status_title{
+        font-size:1.7rem;
+    }
+
+    #refresh{
+        display:none;
+    }
+
+    #inquiry_date, #no, #inquiry {
+        font-size:0.6rem;
+    }
+
+    #outing_detail > tbody > tr > td:first-child, #outing_detail > thead > tr > td:first-child {
+        display: none;
+    }
+
+    footer{
+        font-size:0.8rem;
+        text-align:center;
+    }
+
+    #footer_logo > img {
+        width:200px;
+        height:auto;
+    }
+
+    table > * {
+        font-size: 0.6rem;
+    }
+}
+
+@media (max-width:412px){
+
+    #logo{
+        visibility : collapse;
+    }
+
+    #mNav{
+        visibility : visible;
+    }
+
+    #mLogo{
+        content:url('../logo_device_m.png');
+    }
+
+    #lnb{
+        visibility : collapse;
+    }
+
+    .title{
+        margin-top:4rem;
+        text-align:center;
+    }
+
+    .large_title > .header {
+        font-size:1.5rem;
+    }
+
+    .sub_title > *{
+        font-size:0.7rem;
+    }
+
+    #status_title{
+        font-size:1.5rem;
+    }
+
+    #inquiry_date{
+        width:6.2rem;
+    }
+
+    #no{
+        width:5rem;
+    }
+
+    #refresh{
+        display:none;
+    }
+
+    #no_data{
+        font-size:1rem;
+    }
+
+    #outing_detail > tbody > tr > td:first-child, #outing_detail > thead > tr > td:first-child {
+        display: none;
+    }
+
+    footer{
+        font-size:0.15em;
+    }
+
+    table > * {
+        font-size: 0.4rem;
+    }
+}
