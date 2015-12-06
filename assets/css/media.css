@@ -1,0 +1,246 @@
+@media all{
+    #logo, #lnb{
+        visibility : visible;
+    }
+
+    #mNav {
+        visibility: collapse;
+    }
+
+    #optimization{
+        display: none;
+    }
+}
+
+@media (max-width: 1024px){
+    #logo > a > img{
+         width:23.8%;
+         height:auto;
+     }
+
+    .title{
+        text-align:center;
+    }
+
+    .large_title > .header{
+        font-size:3.2rem;
+    }
+
+    .sub_title > *{
+        font-size:1.3rem;
+    }
+
+    #refresh{
+        display:none;
+    }
+
+    #optimization{
+        display:flex;
+    }
+
+    #inquiry_date, #no, #inquiry {
+        font-size:0.8rem;
+    }
+
+    table > * {
+        font-size: 0.8rem;
+    }
+
+    #psetup_notice{
+        display:none;
+    }
+}
+
+@media (max-width: 768px) {
+    .on{
+        display: inline-block;
+        position: absolute;
+        left: 17px;
+        top: 17px;
+    }
+    .off{
+        position: fixed;
+        left: 17px;
+        top: 17px;
+    }
+    #welcome{
+        display: none;
+    }
+
+    #logo{
+        visibility : collapse;
+    }
+
+    #mNav{
+        visibility : visible;
+        text-align : center;
+    }
+
+    #lnb{
+        visibility : collapse;
+    }
+
+    #lnb_d{
+        visibility : collapse;
+    }
+
+    .title{
+        margin-top:5rem;
+        text-align:center;
+    }
+
+    .large_title > .header {
+        margin-top:5rem;
+        font-size:2rem;
+    }
+
+    .sub_title > *{
+        font-size: 1.2rem;
+    }
+
+    #status_title{
+        font-size:1.7rem;
+    }
+
+    #refresh{
+        display:none;
+    }
+
+    #inquiry_date, #no, #inquiry {
+        font-size:0.6rem;
+    }
+
+    #outing_detail > tbody > tr > td:first-child, #outing_detail > thead > tr > td:first-child {
+        display: none;
+    }
+
+    table > * {
+        font-size: 0.6rem;
+    }
+
+    #psetup_notice{
+        display:none;
+    }
+
+    #apply_right{
+        width:95%;
+        float:none;
+        margin-bottom:20px;
+    }
+
+    #apply_left{
+        width:95%;
+        float:none;
+    }
+
+    .container .apply{
+        text-align:center;
+    }
+
+    #apply_right > article > section {
+        font-size:10pt;
+    }
+
+    #apply_left > form > fieldset > div > p > h2 > span {
+        font-size:20pt;
+    }
+
+    #btn_apply{
+        width:100%;
+    }
+
+    #modify_title{
+        font-size:1.5rem;
+    }
+}
+
+@media (max-width:480px){
+
+    .large_title > .header {
+        font-size:1.7rem;
+    }
+}
+
+@media (max-width:412px){
+
+    #logo{
+        visibility : collapse;
+    }
+
+    #mNav{
+        visibility : visible;
+    }
+
+    #mLogo{
+        content:url('../images/logo_device_m.png');
+    }
+
+    #lnb{
+        visibility : collapse;
+    }
+
+    .title{
+        margin-top:4rem;
+        text-align:center;
+    }
+
+    .large_title > .header {
+        font-size:1.5rem;
+    }
+
+    .sub_title > *{
+        font-size:0.7rem;
+    }
+
+    #status_title{
+        font-size:1.5rem;
+    }
+
+    #inquiry_date{
+        width:6.2rem;
+    }
+
+    #no{
+        width:5rem;
+    }
+
+    #refresh{
+        display:none;
+    }
+
+    #no_data{
+        font-size:1rem;
+    }
+
+    #outing_detail > tbody > tr > td:first-child, #outing_detail > thead > tr > td:first-child {
+        display: none;
+    }
+
+    footer{
+        font-size:0.15em;
+    }
+
+    table > * {
+        font-size: 0.4rem;
+    }
+
+    #psetup_notice{
+        display:none;
+    }
+
+    #apply_right{
+        width:95%;
+        margin-left:0;
+        margin-right:0;
+    }
+
+    #apply_left{
+        width:95%;
+        margin-left:0;
+        margin-right:0;
+    }
+
+    #modify_title{
+        font-size:1rem;
+    }
+}

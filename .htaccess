@@ -1,0 +1,12 @@
+<IfModule mod_url.c>
+checkURL On
+ServerEncoding EUC-KR
+ClientEncoding UTF-8
+ErrorDocument 403 /403.html
+
+ErrorDocument 404 /404.html
+</IfModule>
+php_flag register_globals on
+php_flag register_long_arrays on
+
+RewriteEngine on
