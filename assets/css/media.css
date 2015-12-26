@@ -10,6 +10,9 @@
     #optimization{
         display: none;
     }
+    .optimization3{
+        display: none;
+    }
 }
 
 @media (max-width: 1024px){
@@ -36,6 +39,15 @@
 
     #optimization{
         display:flex;
+    }
+
+    #optimization2{
+        height: 10px;
+        display: flex;
+    }
+
+    .font_sizeup{
+        font-size: 15pt;
     }
 
     #inquiry_date, #no, #inquiry {
@@ -109,6 +121,15 @@
     #inquiry_date, #no, #inquiry {
         font-size:0.6rem;
     }
+
+    .font_sizeup{
+          font-size: 12pt;
+      }
+
+    #outing_detail > tbody > tr > td:first-child, #outing_detail > thead > tr > td:first-child {
+        display: none;
+    }
+
 
     #outing_detail > tbody > tr > td:first-child, #outing_detail > thead > tr > td:first-child {
         display: none;
@@ -242,5 +263,13 @@
 
     #modify_title{
         font-size:1rem;
+    }
+
+    .optimization3{
+        display: flex;
+    }
+    #ui-datepicker-div{
+        background-color: rgba(55, 56, 54, 0.96);
+        text-align: center;
     }
 }

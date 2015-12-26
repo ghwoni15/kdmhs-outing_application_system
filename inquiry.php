@@ -92,7 +92,7 @@ if ($_SESSION['Type'] === 'T') {
     for ($i = 1; $i < 7; $i++) {
         echo("\t<tr>\n");
         for ($j = 1; $j < 4; $j++) {
-            $query = "SELECT o.id FROM out_apply o JOIN member m ON o.username=m.User WHERE m.Grade=$j AND m.Class=$i;";
+            $query = "SELECT DISTINCT (o.username) FROM out_apply o JOIN member m ON o.username=m.User WHERE m.Grade=$j AND m.Class=$i;";
             $rs = mysqli_query($link, $query) or die("wrong query");
             $rn = mysqli_num_rows($rs);
             echo("\t\t" . '<td>' . "$i" . '반</td>' . "\t" . '<td>' . "$rn" . '명</td>' . "\n");
@@ -117,20 +117,30 @@ if ($_SESSION['Type'] === 'T') {
     </h3>
     <hr/>
     <div class="container search" align="center">
-        <form method="GET">&nbsp;&nbsp;<h5>특정날짜선택</h5>&nbsp;&nbsp;
-            <input type="date" class="search_field" id="inquiry_date" name="day"/>&nbsp;&nbsp;
-            <button class="button" type="submit" id="inquiry"/>
-            조회</button>
-        </form>
-        <br id='optimization'/>
-        <?php
-        if (isset($_GET['no']))
-            $no = $_GET['no'];
-        else $no = '';
+        <div>
+            <form method="GET"><h5 class="font_sizeup">특정날짜선택 </h5><br class="optimization3"/>
+                <input type='date' id='date_finder' name='day' required style="width: 150px;" ><br class="optimization3">
+                <input class="button" type="submit" id="inquiry" value="조회"/>
+            </form>
+            <!--                <form method='GET'>-->
+            <!--                    <h5 class='font_sizeup'>-->
+            <!--                        특정날짜선택 </h5>-->
+            <!--                    <br class='optimization3'/>-->
+            <!--                    <input type="text" id="datepicker_" name="day" style="width: 100px;">-->
+            <!--                    <input class="button" type="submit" id="inquiry" value="조회" onclick="aaa()"/>-->
+            <!--                </form>-->
+        </div>
+        <br id='optimization' /><div id='optimization2' /></div>
+    <?php
+    if(isset($_GET['no']))
+        $no=$_GET['no'];
+    else $no='';
 
-        if ($_SESSION['Type'] === 'T')
-            echo("<form method='GET'>&nbsp;&nbsp;<h5>일련번호조회</h5>&nbsp;&nbsp;\n<input type='text' id='no' name='no' size='23' required placeholder='ex)1511230001' value=$no >\n&nbsp;&nbsp;<input class=\"button\" type=\"submit\" id=\"inquiry\" value=\"조회\"/></form>\n<a href='./inquiry.php'>&nbsp;&nbsp;<input id=\"refresh\" class=\"button\" type=\"button\" value=\"새로고침\"/></a>\n"); ?>
-    </div>
+    if($_SESSION['Type']==='T')
+        echo("<form method='GET'><h5 class='font_sizeup'>일련번호조회 </h5><br class='optimization3'/>\n<input type='text' id='no' name='no' style='width: 150px;' required placeholder='ex)1511230001' value=$no ><br class='optimization3'>\n<input class=\"button\" type=\"submit\" id=\"inquiry\" value=\"조회\"/></form>\n<a href='./inquiry.php'>&nbsp;<input id=\"refresh\" class=\"button\" type=\"button\" value=\"새로고침\"/></a>\n"); ?>
+    <br class="optimization3"/>
+</div>
+<div style="width: 95%;margin: 0 auto; border-top: solid 1px #ffffff"></div><br />
     <div id="content">
         <div class="inquiry">
             <?php
@@ -155,8 +165,8 @@ if ($_SESSION['Type'] === 'T') {
             } //일련번호 혹은 날짜 제약조건 검색시
             else {
                 if ($_SESSION['Type'] === 'T') {
-                    if (isset($_GET['no'])) $query = "SELECT o.id AS 일련번호, CONCAT(DATE_FORMAT(o.begin_time,'%m/%d %H:%i'),' ~ ', DATE_FORMAT(o.end_time, '%H:%i')) AS 외출예정일, o.note AS 사유, CONCAT(m.grade, m.class, m.num, ' ',m.name) AS 신청학생정보, a.is_approved AS 승인여부, a.approve_no FROM out_apply o left join member m on o.username = m.user right join out_approve a on o.id = a.out_apply_id WHERE o.id = " . $_GET['no'] . ";";
-                    else $query = "SELECT o.id AS 일련번호, CONCAT(DATE_FORMAT(o.begin_time,'%m/%d %H:%i'),' ~ ', DATE_FORMAT(o.end_time, '%H:%i')) AS 외출예정일, o.note AS 사유, CONCAT(m.grade, m.class, m.num, ' ',m.name) AS 신청학생정보, a.is_approved AS 승인여부, a.approve_no FROM out_apply o left join member m on o.username = m.user right join out_approve a on o.id = a.out_apply_id  WHERE DATE_FORMAT(o.begin_time,'%Y-%m-%d')='" . $_GET['day'] . "';";
+                    if (isset($_GET['no'])) $query = "SELECT o.id AS 일련번호, CONCAT(DATE_FORMAT(o.begin_time,'%m/%d %H:%i'),' ~ ', DATE_FORMAT(o.end_time, '%H:%i')) AS 외출예정일, o.note AS 사유, CONCAT(m.grade, m.class, LPAD(m.num,2,'0'), ' ',m.name) AS 신청학생정보, a.is_approved AS 승인여부, a.approve_no FROM out_apply o left join member m on o.username = m.user right join out_approve a on o.id = a.out_apply_id WHERE o.id = " . $_GET['no'] . ";";
+                    else $query = "SELECT o.id AS 일련번호, CONCAT(DATE_FORMAT(o.begin_time,'%m/%d %H:%i'),' ~ ', DATE_FORMAT(o.end_time, '%H:%i')) AS 외출예정일, o.note AS 사유, CONCAT(m.grade, m.class, LPAD(m.num,2,'0'), ' ',m.name) AS 신청학생정보, a.is_approved AS 승인여부, a.approve_no FROM out_apply o left join member m on o.username = m.user right join out_approve a on o.id = a.out_apply_id  WHERE DATE_FORMAT(o.begin_time,'%Y-%m-%d')='" . $_GET['day'] . "';";
                 } else if ($_SESSION['Type'] === 'S') $query = "SELECT o.id AS 일련번호, CONCAT(DATE_FORMAT(o.begin_time,'%m/%d %H:%i'),' ~ ', DATE_FORMAT(o.end_time, '%H:%i')) AS 외출예정일, o.note AS 사유, a.is_approved AS 승인여부, a.approve_no FROM out_apply o left join member m on o.username = m.user right join out_approve a on o.id = a.out_apply_id  WHERE DATE_FORMAT(o.begin_time,'%Y-%m-%d')='" . $_GET['day'] . "';";
             }
             $rs = mysqli_query($link, $query);

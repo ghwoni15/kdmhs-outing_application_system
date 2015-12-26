@@ -106,7 +106,7 @@ $html = '<small style="font-size:30px; text-align:center;">외출허가증<small
 <h4 style="font-size:18px;text-align:justify;"><strong style="font-size:13px;">허가시간</strong> :<br/>'.$startTime.' ~ '.$endTime.'</h4>
 <h4 style="font-size:18px;text-align:justify;"><strong style="font-size:13px;">외출사유</strong> :<br/>'.$reason.'</h4>
 <hr/><small style="font-size:12px;text-align:center;">위와 같은 사유로 인하여 해당 학생의 외출을 허가합니다.</small>
-<h2 style="font-size:18px;text-align:justify;margin-left:15px;">3학년 학년부장 : [직인생략]<br/>담임교사 : [직인생략]</h2><br/><hr/><br />
+<h2 style="font-size:18px;text-align:justify;margin-left:15px;">'.$grade.'학년 학년부장 : [직인생략]<br/>담임교사 : [직인생략]</h2><br/><hr/><br />
 <h4 style="font-size:13px;text-align:center;margin-top:10px;">본 외출증은 외출 종료시까지 반드시 소지하고 있어야 하며, <br/>외출 시간 이후 그 효력은 소멸됨을 알려드립니다.</h4>';
 
 $params = $pdf->serializeTCPDFtagParameters(array($_GET['no'], 'C39', '', '', 70, 8, 0.2, array('position'=>'S', 'border'=>true, 'padding'=>4, 'fgcolor'=>array(0,0,0), 'bgcolor'=>array(255,255,255), 'text'=>true, 'font'=>'robotob_0', 'fontsize'=>8, 'stretchtext'=>4), 'N'));
@@ -122,7 +122,7 @@ $html = '<small style="font-size:30px; text-align:center;">외출허가증<small
 <h4 style="font-size:18px;text-align:justify;"><strong style="font-size:13px;">허가시간</strong> :<br/>'.$startTime.' ~ '.$endTime.'</h4>
 <h4 style="font-size:18px;text-align:justify;"><strong style="font-size:13px;">외출사유</strong> :<br/>'.$reason.'</h4>
 <hr/><small style="font-size:12px;text-align:center;">위와 같은 사유로 인하여 해당 학생의 외출을 허가합니다.</small>
-<h2 style="font-size:18px;text-align:justify;margin-left:15px;">3학년 학년부장 : [직인생략]<br/>담임교사 : [직인생략]</h2><br/><hr/><br />';
+<h2 style="font-size:18px;text-align:justify;margin-left:15px;">'.$grade.'학년 학년부장 : [직인생략]<br/>담임교사 : [직인생략]</h2><br/><hr/><br />';
 
 $params = $pdf->serializeTCPDFtagParameters(array($_GET['no'], 'C39', '', '', 70, 8, 0.2, array('position'=>'S', 'border'=>true, 'padding'=>4, 'fgcolor'=>array(0,0,0), 'bgcolor'=>array(255,255,255), 'text'=>true, 'font'=>'robotob_0', 'fontsize'=>8, 'stretchtext'=>4), 'N'));
 $html .= '&nbsp;<tcpdf method="write1DBarcode" params="'.$params.'" /><small style="font-size:11px;text-align:center;">:: 부정방지 바코드 ::</small>';

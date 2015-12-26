@@ -22,8 +22,6 @@ body{
 *{
     font-family: 'KoPubDotumLight','Roboto', sans-serif;
     line-height:1.5em;
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
     -khtml-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
@@ -166,11 +164,6 @@ a:hover {
 }
 
 input[type="button"],.button {
-    -moz-appearance: none;
-    -webkit-appearance: none;
-    -o-appearance: none;
-    -ms-appearance: none;
-    appearance: none;
     -moz-transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
     -webkit-transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
     -o-transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
@@ -247,11 +240,6 @@ select:focus::-ms-value {
 
 input[type="password"],input[type="text"],input[type="time"],input[type="date"], select{
     height:2em;
-    -moz-appearance: none;
-    -webkit-appearance: none;
-    -o-appearance: none;
-    -ms-appearance: none;
-    appearance: none;
     -moz-transition: border-color 0.2s ease-in-out;
     -webkit-transition: border-color 0.2s ease-in-out;
     -o-transition: border-color 0.2s ease-in-out;
@@ -399,7 +387,7 @@ thead{
 }
 
 .table-hover > tbody > tr:hover {
-    background-color: rgba(50,50,50,50);
+    background-color: rgba(50,50,50,100);
 }
 
 thead{
@@ -439,6 +427,7 @@ tfoot{
     -ms-filter: url(#goo);
     -webkit-filter: url(#goo);
     -moz-filter: url(#goo);
+
 }
 
 .cssload-dot {

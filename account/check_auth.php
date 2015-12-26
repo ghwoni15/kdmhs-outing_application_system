@@ -89,11 +89,12 @@ if(isset($_SESSION['MODE'])){
     });
 
     $.ajax({
-        url:'../proxy.php?url=http%3A%2F%2Fapi.dimigo.hs.kr%2Fv1%2Fusers%2F<?= $REQ_IDENT ?>%3Ffields%3Dpassword_hash,user_type,name',
+        url:'../proxy.php?url=http%3A%2F%2Fapi.dimigo.hs.kr%2Fv1%2Fusers%2Fsearch%3Fusername%3D<?= $REQ_IDENT ?>',
         type:'GET',
         dataType:'JSON',
         success:function(data)
         {
+            data=data[0];
             var HASH_VAL = data.password_hash;
             if(HASH_VAL === undefined){
                 alert('로그인 정보가 올바르지 않습니다. 아이디와 비밀번호를 확인해주시기 바랍니다.');
@@ -115,10 +116,11 @@ if(isset($_SESSION['MODE'])){
                     $_SESSION['MODE'] = 'GET_USER_INFO';
                     ?>
                     $.ajax({
-                        url:'../proxy.php?url=http%3A%2F%2Fapi.dimigo.hs.kr%2Fv1%2Fusers%2F<?= $REQ_IDENT ?>',
+                        url:'../proxy.php?url=http%3A%2F%2Fapi.dimigo.hs.kr%2Fv1%2Fuser-students%2Fsearch%3Fusername%3D<?= $REQ_IDENT ?>',
                         type:'POST',
                         dataType:'JSON',
                         success:function(data){
+                            data=data[0];
                             SERIAL = data.serial;
                         }
                     });

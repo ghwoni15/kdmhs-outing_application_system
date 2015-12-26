@@ -1,6 +1,8 @@
 <?php
+//var_dump($_POST['etc_reason']);
+//exit;
     session_start();
-    if(!isset($_SESSION['User']) || empty($_POST['a_procedure']) || empty($_POST['day']) || empty($_POST['reason_type']) || empty($_POST['startTime']) || empty($_POST['endTime']))
+    if(!isset($_SESSION['REQ_ID_INFO']) || empty($_POST['a_procedure']) || empty($_POST['day']) || empty($_POST['reason_type']) || empty($_POST['startTime']) || empty($_POST['endTime']))
         header('Location: ../../403.html');
     else{
         list($DAY, $START_TIME, $END_TIME, $A_PROCEDURE, $REASON[0], $REASON[1], $NO_HRT) = array($_POST['day'], $_POST['startTime'], $_POST['endTime'], $_POST['a_procedure'], $_POST['reason_type'], $_POST['etc_reason'], $_POST['no_hrt']);
@@ -8,9 +10,6 @@
         include "../../include/auth.php";
 
         list($year, $month, $mday) = explode("-", $DAY);
-
-        if(isset($_GET['t_direct']) && $_GET['t_direct']=== true) $user = $_POST['students'];
-        else $user = $_SESSION['User'];
 
         $query="SELECT MAX(id) AS No FROM out_apply WHERE id LIKE '".substr($year,-2).$month.$mday."%';";
 
@@ -27,7 +26,7 @@
 
 
         //permission
-        if($REASON[0] !== 'etc')
+        if($REASON[0] !== '기타')
             $FINAL_REASON = $REASON[0];
         else
             $FINAL_REASON = $REASON[1];
@@ -49,7 +48,13 @@
             $PROCEDURE = 2;
             $query_approve .= "INSERT INTO out_approve(`out_apply_id`,`approve_no`, `approve_username`, `is_approved`) VALUES ('$no', '$PROCEDURE','pororo','N');";
         }
-        $query_apply="INSERT INTO out_apply(`id`, `username`, `begin_time`, `end_time`, `apply_at`, `note`) VALUES ('$no', '".$_SESSION['REQ_ID_INFO']."' , '".$_POST['day']." $START_TIME:00', '".$_POST['day']." $END_TIME:00','".date('Y-m-d H:i:s')."', '$FINAL_REASON');";
+        $user_id = '';
+        if($_GET['t_direct'] === "true")
+            $user_id = $_POST['username'];
+        else
+            $user_id = $_SESSION['REQ_ID_INFO'];
+
+        $query_apply="INSERT INTO out_apply(`id`, `username`, `begin_time`, `end_time`, `apply_at`, `note`) VALUES ('$no', '$user_id' , '".$_POST['day']." $START_TIME:00', '".$_POST['day']." $END_TIME:00','".date('Y-m-d H:i:s')."', '$FINAL_REASON');";
 //        $query = $query_apply.$query_approve;
 //        echo("<script>alert($query);</script>");
         $rs=mysqli_query($link, $query_apply);
@@ -73,13 +78,18 @@
             header('Location: ../../error.html');
         }
 
-        $rows=mysqli_num_rows($rs);
-        mysqli_free_result($rs);
+        $rows=@mysqli_num_rows($rs);
+        @mysqli_free_result($rs);
         mysqli_close($link);
         if($rows !== 0){
             $_SESSION['MODE'] = 'COMPLETELY_APPLIED';
-            header('Location: ../../inquiry.php');
-        }else header('Location: ../../error.php');
+//            header('Location: ../../inquiry.php');
+            if($_GET['t_direct'] === "true")
+                echo "./inquiry.php";
+            else
+                header('Location: ../../inquiry.php');
+
+        }else echo('../../error.php');
     }
 
 ?>

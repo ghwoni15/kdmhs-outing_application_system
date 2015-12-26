@@ -29,9 +29,7 @@
     </style>
 </head>
 <body>
-<video muted autoplay poster="assets/background.jpg" controls id="bgvid">
-    <source src="assets/main_bgvideo.mp4" type="video/mp4">
-</video>
+<iframe width="100%" height="100%" src="https://www.youtube.com/embed/6RxivxQIuZM" frameborder="0" allowfullscreen></iframe>
 <?php
 session_start();
 if(!isset($_SESSION['MODE']) || !isset($_SESSION['User']) || !isset($_SESSION['Type'])) die("<script>alert('서비스 로그인 후 사용하실 수 있습니다.'); location.href = 'account/auth.php?act=login';</script>\n");
