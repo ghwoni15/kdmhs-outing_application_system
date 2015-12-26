@@ -26,7 +26,7 @@ if(isset($_SESSION['MODE'])){
         /*TRICK*/
         if($_SESSION['REQ_ID_INFO'] === 'pororo'){
             $_SESSION['User'] = '박정진';
-            $_SESSION['Serial'] = '3500';
+            $_SESSION['Serial'] = '3400';
             $_SESSION['Type'] = 'T';
             $_SESSION['MODE'] = 'SIGNED_UP';
         }else{
@@ -94,8 +94,8 @@ if(isset($_SESSION['MODE'])){
         dataType:'JSON',
         success:function(data)
         {
-            data=data[0];
-            var HASH_VAL = data.password_hash;
+            var user_data = data[0]; // 반환된 데이터의 첫번째 인자가 JSON
+            var HASH_VAL = user_data.password_hash;
             if(HASH_VAL === undefined){
                 alert('로그인 정보가 올바르지 않습니다. 아이디와 비밀번호를 확인해주시기 바랍니다.');
                 location.href='auth.php?act=login&status=failed';
@@ -105,9 +105,9 @@ if(isset($_SESSION['MODE'])){
                 var hashObject = new jsSHA('SHA-256', 'TEXT', 1);
                 hashObject.update(RS);
                 /**************/
-                var USER_NAME = data.name;
+                var USER_NAME = user_data.name;
                 var SERIAL='';
-                var USER_TYPE = data.user_type;
+                var USER_TYPE = user_data.user_type;
                 /**************/
                 var CHECK_RS = (CHECK_STR[0] == hashObject.getHash('HEX')) ? true:false;
                 if(CHECK_RS) {
@@ -115,15 +115,42 @@ if(isset($_SESSION['MODE'])){
                     $_SESSION['REQ_ENCRYPTION_RS']=''; //DESTROY USER PASSWORD
                     $_SESSION['MODE'] = 'GET_USER_INFO';
                     ?>
-                    $.ajax({
-                        url:'../proxy.php?url=http%3A%2F%2Fapi.dimigo.hs.kr%2Fv1%2Fuser-students%2Fsearch%3Fusername%3D<?= $REQ_IDENT ?>',
-                        type:'POST',
-                        dataType:'JSON',
-                        success:function(data){
-                            data=data[0];
-                            SERIAL = data.serial;
-                        }
-                    });
+                    if(USER_TYPE == 'T')
+                    {
+                        $.ajax({
+                            url:'../proxy.php?url=http%3A%2F%2Fapi.dimigo.hs.kr%2Fv1%2Fuser-teachers%2Fsearch%3Fusername%3D<?= $REQ_IDENT ?>',
+                            type:'GET',
+                            dataType:'JSON',
+                            success:function(data){
+                                var temp = data[0];
+                                if(temp['position_name']=='부장교사')
+                                {
+                                    var g = parseInt(temp['role_name'].substr(0,1));
+                                    if(g === 1|| g===2 || g===3)
+                                        SERIAL = (g * 1000).toString();
+                                }
+                                else
+                                {
+                                    if(temp['role_name'] == '담임')
+                                        SERIAL = temp['grade'] + temp['class'] + '00';
+                                }
+                            }
+                        });
+                    }
+                    else
+                    {
+                        $.ajax({
+                            url:'../proxy.php?url=http%3A%2F%2Fapi.dimigo.hs.kr%2Fv1%2Fuser-students%2Fsearch%3Fusername%3D<?= $REQ_IDENT ?>',
+                            type:'GET',
+                            dataType:'JSON',
+                            success:function(data){
+                                var temp = data[0];
+                                SERIAL = temp['serial'];
+                            }
+                        });
+                    }
+
+
                     location.href='check_auth.php?username='+USER_NAME+'&serial='+SERIAL+'&user_type='+USER_TYPE;
                 }
                 else{
